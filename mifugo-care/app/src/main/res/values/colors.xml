@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Airbnb-Inspired Color Palette -->
+    
+    <!-- Primary Colors (Turquoise) -->
+    <color name="accent_primary">#00D4AA</color>
+    <color name="accent_primary_dark">#00B894</color>
+    <color name="accent_primary_light">#26E6C2</color>
+    <color name="accent_secondary">#00C896</color>
+    
+    <!-- Blue Colors -->
+    <color name="blue_primary">#0066CC</color>
+    <color name="blue_dark">#0052A3</color>
+    <color name="blue_light">#3388DD</color>
+    
+    <!-- Neutral Colors (Airbnb-inspired) -->
+    <color name="black">#000000</color>
+    <color name="dark_grey">#222222</color>
+    <color name="grey">#717171</color>
+    <color name="light_grey">#DDDDDD</color>
+    <color name="faint_grey">#F7F7F7</color>
+    <color name="white">#FFFFFF</color>
+    
+    <!-- Background Colors -->
+    <color name="background_primary">#FFFFFF</color>
+    <color name="background_secondary">#F7F7F7</color>
+    <color name="background_tertiary">#F5F5F5</color>
+    <color name="background_dark">#222222</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#222222</color>
+    <color name="text_secondary">#717171</color>
+    <color name="text_tertiary">#B0B0B0</color>
+    <color name="text_disabled">#DDDDDD</color>
+    <color name="text_hint">#B0B0B0</color>
+    <color name="text_white">#FFFFFF</color>
+    
+    <!-- Status Colors -->
+    <color name="success_green">#00D4AA</color>
+    <color name="warning_orange">#FF9500</color>
+    <color name="error_red">#FF3B30</color>
+    <color name="info_blue">#0066CC</color>
+    
+    <!-- Transparent Colors -->
+    <color name="white_alpha_90">#E6FFFFFF</color>
+    <color name="white_alpha_80">#CCFFFFFF</color>
+    <color name="white_alpha_20">#33FFFFFF</color>
+    <color name="white_alpha_10">#1AFFFFFF</color>
+    <color name="black_alpha_80">#CC000000</color>
+    <color name="black_alpha_60">#99000000</color>
+    <color name="black_alpha_40">#66000000</color>
+    <color name="black_alpha_20">#33000000</color>
+    <color name="black_alpha_10">#1A000000</color>
+    
+    <!-- Accent with Alpha -->
+    <color name="accent_primary_alpha_20">#3300D4AA</color>
+    <color name="accent_primary_alpha_10">#1A00D4AA</color>
+    <color name="accent_primary_alpha_5">#0D00D4AA</color>
+    
+    <!-- Border Colors -->
+    <color name="border_light">#F0F0F0</color>
+    <color name="border_medium">#DDDDDD</color>
+    <color name="border_dark">#717171</color>
+    <color name="border_focus">#00D4AA</color>
+    
+    <!-- Special Backgrounds -->
+    <color name="info_background">#F0F9FF</color>
+    <color name="info_text">#0066CC</color>
+    <color name="success_background">#F0FFF4</color>
+    <color name="success_text">#00D4AA</color>
+    <color name="warning_background">#FFF8F0</color>
+    <color name="warning_text">#FF9500</color>
+    <color name="error_background">#FFF5F5</color>
+    <color name="error_text">#FF3B30</color>
+    
+    <!-- Card & Surface Colors -->
+    <color name="surface_primary">#FFFFFF</color>
+    <color name="surface_secondary">#F7F7F7</color>
+    <color name="surface_elevated">#FFFFFF</color>
+    <color name="surface_overlay">#F7F7F7</color>
+    
+    <!-- Airbnb-specific Colors -->
+    <color name="airbnb_red">#FF5A5F</color>
+    <color name="airbnb_dark_red">#E00007</color>
+    <color name="airbnb_pink">#FF385C</color>
+    
+    <!-- Material Design Colors (kept for compatibility) -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+</resources>

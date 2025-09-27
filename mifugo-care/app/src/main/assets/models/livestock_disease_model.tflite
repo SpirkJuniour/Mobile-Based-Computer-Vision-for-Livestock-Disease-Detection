@@ -1,0 +1,8 @@
+# This is a placeholder for the TensorFlow Lite model file
+# In a real implementation, this would be the actual .tflite model file
+# The model should be trained to detect livestock diseases from images
+
+# For now, this is just a text placeholder to maintain the directory structure
+# Replace this with the actual trained model file
+
+MODEL_PLACEHOLDER = "Replace this file with the actual livestock_disease_model.tflite"

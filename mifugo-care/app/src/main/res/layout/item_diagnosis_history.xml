@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/spacing_sm"
+    app:cardCornerRadius="@dimen/corner_radius_lg"
+    app:cardElevation="@dimen/elevation_md"
+    app:cardBackgroundColor="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_md">
+
+        <!-- Status Indicator -->
+        <View
+            android:id="@+id/status_indicator"
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:background="@color/accent_primary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Diagnosis Image -->
+        <ImageView
+            android:id="@+id/image_diagnosis"
+            android:layout_width="@dimen/image_size_xl"
+            android:layout_height="@dimen/image_size_xl"
+            android:layout_marginStart="@dimen/spacing_md"
+            android:layout_marginEnd="@dimen/spacing_md"
+            android:background="@color/background_secondary"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_cow"
+            android:contentDescription="Diagnosis image"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/status_indicator" />
+
+        <!-- Disease Name -->
+        <TextView
+            android:id="@+id/text_disease_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_sm"
+            android:layout_marginEnd="@dimen/spacing_sm"
+            android:text="Foot and Mouth Disease"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_size_lg"
+            android:textStyle="bold"
+            android:fontFamily="@font/sf_pro_display_medium"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintTop_toTopOf="@id/image_diagnosis"
+            app:layout_constraintStart_toEndOf="@id/image_diagnosis"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Confidence Score -->
+        <TextView
+            android:id="@+id/text_confidence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_sm"
+            android:text="85.2%"
+            android:textColor="@color/accent_primary"
+            android:textSize="@dimen/text_size_md"
+            android:textStyle="bold"
+            android:fontFamily="@font/sf_pro_text_medium"
+            android:background="@drawable/confidence_background"
+            android:padding="@dimen/spacing_xs"
+            app:layout_constraintTop_toBottomOf="@id/text_disease_name"
+            app:layout_constraintStart_toEndOf="@id/image_diagnosis" />
+
+        <!-- Status -->
+        <TextView
+            android:id="@+id/text_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_sm"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:text="@string/status_confirmed"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_sm"
+            android:fontFamily="@font/sf_pro_text_regular"
+            app:layout_constraintTop_toBottomOf="@id/text_confidence"
+            app:layout_constraintStart_toEndOf="@id/image_diagnosis" />
+
+        <!-- Date -->
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:text="Dec 15, 2023"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_sm"
+            android:fontFamily="@font/sf_pro_text_regular"
+            app:layout_constraintTop_toBottomOf="@id/text_status"
+            app:layout_constraintStart_toEndOf="@id/image_diagnosis" />
+
+        <!-- Livestock Info -->
+        <TextView
+            android:id="@+id/text_livestock"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_sm"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:text="Mifugo ID: 123"
+            android:textColor="@color/text_secondary"
+            android:textSize="@dimen/text_size_sm"
+            android:fontFamily="@font/sf_pro_text_regular"
+            android:maxLines="1"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@id/text_date"
+            app:layout_constraintStart_toEndOf="@id/image_diagnosis"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Arrow Icon -->
+        <ImageView
+            android:layout_width="@dimen/icon_size_md"
+            android:layout_height="@dimen/icon_size_md"
+            android:src="@drawable/ic_chevron_right"
+            android:tint="@color/text_secondary"
+            android:contentDescription="View details"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

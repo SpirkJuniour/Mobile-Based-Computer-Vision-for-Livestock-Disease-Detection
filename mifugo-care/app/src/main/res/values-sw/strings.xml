@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">Mifugo Care</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Nyumbani</string>
+    <string name="nav_diagnosis">Uchunguzi</string>
+    <string name="nav_history">Historia</string>
+    <string name="nav_livestock">Mifugo</string>
+    <string name="nav_settings">Mipangilio</string>
+    
+    <!-- Main Activities -->
+    <string name="title_main_activity">Mifugo Care</string>
+    <string name="title_diagnosis_activity">Uchunguzi wa Magonjwa</string>
+    <string name="title_camera_activity">Kamera</string>
+    <string name="title_history_activity">Historia ya Uchunguzi</string>
+    <string name="title_settings_activity">Mipangilio</string>
+    
+    <!-- Buttons -->
+    <string name="btn_diagnosis">Uchunguzi</string>
+    <string name="btn_quick_diagnosis">Uchunguzi wa Haraka</string>
+    <string name="btn_take_photo">Piga Picha</string>
+    <string name="btn_select_gallery">Chagua kutoka Picha</string>
+    <string name="btn_capture">Piga</string>
+    <string name="btn_save">Hifadhi</string>
+    <string name="btn_cancel">Ghairi</string>
+    <string name="btn_ok">Sawa</string>
+    <string name="btn_retry">Jaribu Tena</string>
+    <string name="btn_share">Shiriki</string>
+    <string name="btn_back">Rudi</string>
+    <string name="btn_next">Ifuatayo</string>
+    <string name="btn_finish">Maliza</string>
+    <string name="btn_start_diagnosis">Anza Uchunguzi</string>
+    <string name="btn_save_diagnosis">Hifadhi Uchunguzi</string>
+    
+    <!-- Messages -->
+    <string name="msg_welcome">Karibu kwenye Mifugo Care</string>
+    <string name="msg_welcome_subtitle">Uchunguzi wa magonjwa ya mifugo kwa kutumia teknolojia ya kisasa</string>
+    <string name="msg_no_diagnosis_history">Hakuna historia ya uchunguzi bado</string>
+    <string name="msg_start_diagnosis">Anza kwa kupiga picha ili kuchunguza magonjwa ya mifugo</string>
+    <string name="msg_no_livestock_records">Hakuna rekodi za mifugo zilizopatikana</string>
+    <string name="msg_add_livestock">Ongeza rekodi yako ya kwanza ya mifugo</string>
+    
+    <!-- Instructions -->
+    <string name="instruction_camera">Maagizo ya kupiga picha nzuri:</string>
+    <string name="instruction_1">Hakikisha mwanga wa kutosha</string>
+    <string name="instruction_2">Lenga eneo lililoathirika</string>
+    <string name="instruction_3">Weza mnyama ame tulia</string>
+    <string name="instruction_4">Piga picha za wazi na kali</string>
+    <string name="instruction_5">Jumuisha pembe nyingi ikiwa ni lazima</string>
+    <string name="instruction_capture">Gusa ili kupiga picha ya uchunguzi wa magonjwa</string>
+    
+    <!-- Tips -->
+    <string name="tips_title">💡 Vidokezo vya Matokeo Bora</string>
+    <string name="tip_1">Tumia mwanga wa asili wakati wowote</string>
+    <string name="tip_2">Weza kamera ime tulia</string>
+    <string name="tip_3">Lenga eneo lililoathirika</string>
+    <string name="tip_4">Piga picha nyingi kutoka pembe tofauti</string>
+    <string name="tip_5">Hakikisha mnyama ame tulizwa vizuri</string>
+    
+    <!-- Diagnosis -->
+    <string name="diagnosis_result">Matokeo ya Uchunguzi</string>
+    <string name="diagnosis_confidence">Kujiamini: %1$s</string>
+    <string name="diagnosis_status">Hali: %1$s</string>
+    <string name="diagnosis_symptoms">Dalili</string>
+    <string name="diagnosis_treatment">Matibabu</string>
+    <string name="diagnosis_prevention">Kinga</string>
+    <string name="diagnosis_notes">Maelezo</string>
+    
+    <!-- Status -->
+    <string name="status_confirmed">Imethibitishwa</string>
+    <string name="status_suspected">Inashukiwa</string>
+    <string name="status_negative">Hasi</string>
+    <string name="status_healthy">Afya nzuri</string>
+    <string name="status_sick">Mgonjwa</string>
+    <string name="status_recovering">Anapona</string>
+    
+    <!-- Livestock -->
+    <string name="livestock_species">Aina</string>
+    <string name="livestock_breed">Jamii</string>
+    <string name="livestock_age">Umri</string>
+    <string name="livestock_gender">Jinsia</string>
+    <string name="livestock_weight">Uzito</string>
+    <string name="livestock_tag_number">Nambari ya Kitambulisho</string>
+    <string name="livestock_health_status">Hali ya Afya</string>
+    <string name="livestock_location">Mahali</string>
+    <string name="livestock_notes">Maelezo</string>
+    
+    <!-- Gender -->
+    <string name="gender_male">Dume</string>
+    <string name="gender_female">Jike</string>
+    <string name="gender_unknown">Haijulikani</string>
+    
+    <!-- Species -->
+    <string name="species_cattle">Ng\'ombe</string>
+    <string name="species_goat">Mbuzi</string>
+    <string name="species_sheep">Kondoo</string>
+    <string name="species_pig">Nguruwe</string>
+    <string name="species_chicken">Kuku</string>
+    
+    <!-- Settings -->
+    <string name="settings_notifications">Arifa</string>
+    <string name="settings_auto_diagnosis">Uchunguzi wa Kiotomatiki</string>
+    <string name="settings_data_sharing">Kushiriki Data</string>
+    <string name="settings_language">Lugha</string>
+    <string name="settings_camera_quality">Ubora wa Kamera</string>
+    <string name="settings_confidence_threshold">Kiwango cha Kujiamini</string>
+    <string name="settings_version">Toleo %1$s</string>
+    
+    <!-- Common -->
+    <string name="common_loading">Inapakia...</string>
+    <string name="common_processing">Inachakata...</string>
+    <string name="common_analyzing">Inachanganua picha...</string>
+    <string name="common_saving">Inahifadhi...</string>
+    <string name="common_sharing">Inashiriki...</string>
+</resources>

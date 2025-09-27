@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="24dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_settings"
+            android:tint="@color/accent_primary"
+            android:layout_marginEnd="12dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Treatment Recommendations"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/sf_pro_display_bold" />
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_arrow_forward"
+            android:rotation="45"
+            android:tint="@color/text_secondary"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:contentDescription="Close"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+    <!-- Disease Name -->
+    <TextView
+        android:id="@+id/text_disease_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Foot and Mouth Disease"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/sf_pro_display_bold"
+        android:layout_marginBottom="16dp"
+        android:textAlignment="center" />
+
+    <!-- Treatment Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Immediate Treatment"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/sf_pro_display_medium"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/text_immediate_treatment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Isolate affected animals immediately\n• Provide supportive care\n• Contact veterinarian urgently\n• Disinfect equipment and areas"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:fontFamily="@font/sf_pro_text_regular"
+            android:lineSpacingExtra="2dp" />
+
+    </LinearLayout>
+
+    <!-- Medication Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medication"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/sf_pro_display_medium"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/text_medication"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Antibiotics for secondary infections\n• Anti-inflammatory drugs\n• Pain management\n• Vitamin supplements"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:fontFamily="@font/sf_pro_text_regular"
+            android:lineSpacingExtra="2dp" />
+
+    </LinearLayout>
+
+    <!-- Prevention Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prevention"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/sf_pro_display_medium"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/text_prevention"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="• Vaccinate healthy animals\n• Practice biosecurity measures\n• Quarantine new animals\n• Regular health monitoring"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:fontFamily="@font/sf_pro_text_regular"
+            android:lineSpacingExtra="2dp" />
+
+    </LinearLayout>
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_contact_vet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/button_primary_selector"
+            android:text="Contact Vet"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/sf_pro_text_medium"
+            android:drawableStart="@drawable/ic_settings"
+            android:drawablePadding="8dp"
+            android:padding="12dp" />
+
+        <Button
+            android:id="@+id/btn_save_treatment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/button_secondary_selector"
+            android:text="Save"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:fontFamily="@font/sf_pro_text_medium"
+            android:padding="12dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

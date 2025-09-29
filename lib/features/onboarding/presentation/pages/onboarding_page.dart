@@ -405,11 +405,6 @@ class _OnboardingPageState extends State<OnboardingPage>
 }
 
 class OnboardingData {
-  final String title;
-  final String description;
-  final IconData image;
-  final Color color;
-  final List<String> features;
 
   OnboardingData({
     required this.title,
@@ -418,4 +413,9 @@ class OnboardingData {
     required this.color,
     required this.features,
   });
+  final String title;
+  final String description;
+  final IconData image;
+  final Color color;
+  final List<String> features;
 }

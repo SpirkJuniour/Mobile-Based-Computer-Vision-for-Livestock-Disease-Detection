@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'dart:io';
 import '../../data/services/tensorflow_service.dart';
 import '../../domain/entities/diagnosis_result.dart';
 
 class DiagnosisPage extends StatefulWidget {
   final String? imagePath;
-  
-  const DiagnosisPage({
-    super.key,
-    this.imagePath,
-  });
+
+  const DiagnosisPage({super.key, this.imagePath});
 
   @override
   State<DiagnosisPage> createState() => _DiagnosisPageState();
@@ -43,10 +41,10 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
     try {
       // Initialize TensorFlow service
       await _tensorFlowService.initialize();
-      
+
       // Analyze the image
       final result = await _tensorFlowService.predictDisease(widget.imagePath!);
-      
+
       setState(() {
         _diagnosisResult = result;
         _isAnalyzing = false;
@@ -93,9 +91,7 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
       return _buildResultView();
     }
 
-    return const Center(
-      child: Text('No data to display'),
-    );
+    return const Center(child: Text('No data to display'));
   }
 
   Widget _buildAnalyzingView() {
@@ -103,24 +99,16 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CircularProgressIndicator(
-            strokeWidth: 4,
-          ),
+          const CircularProgressIndicator(strokeWidth: 4),
           const SizedBox(height: 24),
           const Text(
             'Analyzing Image...',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           const Text(
             'Please wait while we process the image',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-            ),
+            style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
           const SizedBox(height: 32),
           if (widget.imagePath != null)
@@ -133,8 +121,8 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  widget.imagePath!,
+                child: Image.file(
+                  File(widget.imagePath!),
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return const Icon(
@@ -158,26 +146,16 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error_outline,
-              size: 64,
-              color: Colors.red,
-            ),
+            const Icon(Icons.error_outline, size: 64, color: Colors.red),
             const SizedBox(height: 16),
             const Text(
               'Analysis Failed',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
             Text(
               _errorMessage ?? 'Unknown error occurred',
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
@@ -215,8 +193,8 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  widget.imagePath!,
+                child: Image.file(
+                  File(widget.imagePath!),
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return const Icon(
@@ -269,7 +247,7 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  
+
                   // Severity badge
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -277,8 +255,9 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: _getSeverityColor(_diagnosisResult!.severity)
-                          .withOpacity(0.1),
+                      color: _getSeverityColor(
+                        _diagnosisResult!.severity,
+                      ).withOpacity(0.1),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
                         color: _getSeverityColor(_diagnosisResult!.severity),
@@ -331,7 +310,7 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
               Icons.warning,
               'This disease is contagious. Isolate affected animals immediately.',
             ),
-          
+
           const SizedBox(height: 16),
 
           // Action buttons
@@ -383,10 +362,7 @@ class _DiagnosisPageState extends State<DiagnosisPage> {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              content,
-              style: const TextStyle(fontSize: 14),
-            ),
+            Text(content, style: const TextStyle(fontSize: 14)),
           ],
         ),
       ),

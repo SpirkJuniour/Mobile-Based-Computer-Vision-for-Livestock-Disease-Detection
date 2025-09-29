@@ -1,21 +1,4 @@
 class Disease {
-  final int? diseaseId;
-  final String diseaseName;
-  final String scientificName;
-  final String species;
-  final String symptoms;
-  final String causes;
-  final String prevention;
-  final String treatment;
-  final String severity;
-  final String contagious;
-  final String mortalityRate;
-  final String affectedBodyParts;
-  final String seasonality;
-  final String? imageUrl;
-  final String modelConfidence;
-  final DateTime dateAdded;
-  final DateTime lastUpdated;
 
   const Disease({
     this.diseaseId,
@@ -63,6 +46,45 @@ class Disease {
       lastUpdated: now,
     );
   }
+
+  factory Disease.fromMap(Map<String, dynamic> map) {
+    return Disease(
+      diseaseId: map['diseaseId'],
+      diseaseName: map['diseaseName'] ?? '',
+      scientificName: map['scientificName'] ?? '',
+      species: map['species'] ?? '',
+      symptoms: map['symptoms'] ?? '',
+      causes: map['causes'] ?? '',
+      prevention: map['prevention'] ?? '',
+      treatment: map['treatment'] ?? '',
+      severity: map['severity'] ?? '',
+      contagious: map['contagious'] ?? '',
+      mortalityRate: map['mortalityRate'] ?? '',
+      affectedBodyParts: map['affectedBodyParts'] ?? '',
+      seasonality: map['seasonality'] ?? '',
+      imageUrl: map['imageUrl'],
+      modelConfidence: map['modelConfidence'] ?? '0.7',
+      dateAdded: DateTime.fromMillisecondsSinceEpoch(map['dateAdded']),
+      lastUpdated: DateTime.fromMillisecondsSinceEpoch(map['lastUpdated']),
+    );
+  }
+  final int? diseaseId;
+  final String diseaseName;
+  final String scientificName;
+  final String species;
+  final String symptoms;
+  final String causes;
+  final String prevention;
+  final String treatment;
+  final String severity;
+  final String contagious;
+  final String mortalityRate;
+  final String affectedBodyParts;
+  final String seasonality;
+  final String? imageUrl;
+  final String modelConfidence;
+  final DateTime dateAdded;
+  final DateTime lastUpdated;
 
   Disease copyWith({
     int? diseaseId,
@@ -124,28 +146,6 @@ class Disease {
       'dateAdded': dateAdded.millisecondsSinceEpoch,
       'lastUpdated': lastUpdated.millisecondsSinceEpoch,
     };
-  }
-
-  factory Disease.fromMap(Map<String, dynamic> map) {
-    return Disease(
-      diseaseId: map['diseaseId'],
-      diseaseName: map['diseaseName'] ?? '',
-      scientificName: map['scientificName'] ?? '',
-      species: map['species'] ?? '',
-      symptoms: map['symptoms'] ?? '',
-      causes: map['causes'] ?? '',
-      prevention: map['prevention'] ?? '',
-      treatment: map['treatment'] ?? '',
-      severity: map['severity'] ?? '',
-      contagious: map['contagious'] ?? '',
-      mortalityRate: map['mortalityRate'] ?? '',
-      affectedBodyParts: map['affectedBodyParts'] ?? '',
-      seasonality: map['seasonality'] ?? '',
-      imageUrl: map['imageUrl'],
-      modelConfidence: map['modelConfidence'] ?? '0.7',
-      dateAdded: DateTime.fromMillisecondsSinceEpoch(map['dateAdded']),
-      lastUpdated: DateTime.fromMillisecondsSinceEpoch(map['lastUpdated']),
-    );
   }
 
   @override

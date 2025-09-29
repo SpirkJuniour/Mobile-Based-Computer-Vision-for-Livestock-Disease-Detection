@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'dart:io';
 import '../../../../core/theme/app_theme.dart';
 
 class HomePage extends StatefulWidget {
@@ -683,8 +684,135 @@ class HistoryTab extends StatelessWidget {
   }
 }
 
-class LivestockTab extends StatelessWidget {
+class LivestockTab extends StatefulWidget {
   const LivestockTab({super.key});
+
+  @override
+  State<LivestockTab> createState() => _LivestockTabState();
+}
+
+class _LivestockTabState extends State<LivestockTab> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  List<Map<String, dynamic>> _livestock = [];
+  bool _isLoading = true;
+  String _searchQuery = '';
+  String _selectedFilter = 'All';
+
+  final List<String> _filterOptions = ['All', 'Cattle', 'Goats', 'Sheep', 'Pigs', 'Chickens'];
+
+  @override
+  void initState() {
+    super.initState();
+    _setupAnimations();
+    _loadLivestock();
+  }
+
+  void _setupAnimations() {
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
+    ));
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.3),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: const Interval(0.2, 1.0, curve: Curves.easeOut),
+    ));
+
+    _animationController.forward();
+  }
+
+  Future<void> _loadLivestock() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      // TODO: Load from database
+      // For now, using mock data
+      await Future.delayed(const Duration(seconds: 1));
+      
+      setState(() {
+        _livestock = [
+          {
+            'livestockId': 1,
+            'tagNumber': 'C001',
+            'name': 'Bella',
+            'species': 'Cattle',
+            'breed': 'Holstein',
+            'gender': 'Female',
+            'dateOfBirth': DateTime.now().subtract(const Duration(days: 365)).millisecondsSinceEpoch,
+            'color': 'Black and White',
+            'weight': '450 kg',
+            'healthStatus': 'Healthy',
+            'imagePath': '',
+          },
+          {
+            'livestockId': 2,
+            'tagNumber': 'G001',
+            'name': 'Billy',
+            'species': 'Goat',
+            'breed': 'Boer',
+            'gender': 'Male',
+            'dateOfBirth': DateTime.now().subtract(const Duration(days: 180)).millisecondsSinceEpoch,
+            'color': 'Brown',
+            'weight': '65 kg',
+            'healthStatus': 'Healthy',
+            'imagePath': '',
+          },
+        ];
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      _showErrorSnackBar('Failed to load livestock records');
+    }
+  }
+
+  List<Map<String, dynamic>> get _filteredLivestock {
+    List<Map<String, dynamic>> filtered = List.from(_livestock);
+
+    // Apply search filter
+    if (_searchQuery.isNotEmpty) {
+      filtered = filtered.where((animal) {
+        final name = animal['name'] ?? '';
+        final tagNumber = animal['tagNumber'] ?? '';
+        return name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+               tagNumber.toLowerCase().contains(_searchQuery.toLowerCase());
+      }).toList();
+    }
+
+    // Apply species filter
+    if (_selectedFilter != 'All') {
+      filtered = filtered.where((animal) {
+        final species = animal['species'] ?? '';
+        return species.toLowerCase() == _selectedFilter.toLowerCase();
+      }).toList();
+    }
+
+    return filtered;
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -695,17 +823,380 @@ class LivestockTab extends StatelessWidget {
         centerTitle: true,
         backgroundColor: AppTheme.primaryColor,
         foregroundColor: AppTheme.textOnPrimary,
+        actions: [
+          IconButton(
+            onPressed: _showAddLivestockDialog,
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
-      body: const Center(
-        child: Text(
-          'Livestock content will be implemented here',
-          style: TextStyle(
-            fontSize: 16,
+      body: AnimatedBuilder(
+        animation: _animationController,
+        builder: (context, child) {
+          return FadeTransition(
+            opacity: _fadeAnimation,
+            child: SlideTransition(
+              position: _slideAnimation,
+              child: Column(
+                children: [
+                  // Search and filter bar
+                  _buildSearchAndFilterBar(),
+                  
+                  // Content
+                  Expanded(
+                    child: _isLoading
+                        ? _buildLoadingView()
+                        : _livestock.isEmpty
+                            ? _buildEmptyView()
+                            : _buildLivestockList(),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildSearchAndFilterBar() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppTheme.cardColor,
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.shadowColor,
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          // Search bar
+          TextField(
+            onChanged: (value) {
+              setState(() {
+                _searchQuery = value;
+              });
+            },
+            decoration: InputDecoration(
+              hintText: 'Search livestock...',
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon: _searchQuery.isNotEmpty
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _searchQuery = '';
+                        });
+                      },
+                      icon: const Icon(Icons.clear),
+                    )
+                  : null,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppTheme.dividerColor),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppTheme.dividerColor),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppTheme.primaryColor, width: 2),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          
+          // Filter chips
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: _filterOptions.map((filter) {
+                final isSelected = _selectedFilter == filter;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: FilterChip(
+                    label: Text(filter),
+                    selected: isSelected,
+                    onSelected: (selected) {
+                      setState(() {
+                        _selectedFilter = selected ? filter : 'All';
+                      });
+                    },
+                    selectedColor: AppTheme.primaryColor.withOpacity(0.2),
+                    checkmarkColor: AppTheme.primaryColor,
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoadingView() {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(),
+          SizedBox(height: 16),
+          Text(
+            'Loading livestock records...',
+            style: TextStyle(
+              fontSize: 16,
+              color: AppTheme.textSecondary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyView() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.pets,
+            size: 80,
             color: AppTheme.textSecondary,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'No Livestock Records',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Add your first animal to start tracking their health',
+            style: TextStyle(
+              fontSize: 16,
+              color: AppTheme.textSecondary,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton.icon(
+            onPressed: _showAddLivestockDialog,
+            icon: const Icon(Icons.add),
+            label: const Text('Add Animal'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLivestockList() {
+    final filteredLivestock = _filteredLivestock;
+    
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: filteredLivestock.length,
+      itemBuilder: (context, index) {
+        final animal = filteredLivestock[index];
+        return _buildLivestockCard(animal);
+      },
+    );
+  }
+
+  Widget _buildLivestockCard(Map<String, dynamic> animal) {
+    final name = animal['name'] ?? 'Unknown';
+    final tagNumber = animal['tagNumber'] ?? '';
+    final species = animal['species'] ?? '';
+    final breed = animal['breed'] ?? '';
+    final gender = animal['gender'] ?? '';
+    final healthStatus = animal['healthStatus'] ?? 'Unknown';
+    final imagePath = animal['imagePath'] ?? '';
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: InkWell(
+        onTap: () => _showLivestockDetails(animal),
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              // Animal image
+              Container(
+                width: 60,
+                height: 60,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppTheme.dividerColor),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: imagePath.isNotEmpty
+                      ? Image.file(
+                          File(imagePath),
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Icon(
+                              _getSpeciesIcon(species),
+                              color: AppTheme.textSecondary,
+                            );
+                          },
+                        )
+                      : Icon(
+                          _getSpeciesIcon(species),
+                          color: AppTheme.textSecondary,
+                        ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              
+              // Animal info
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '$species • $breed',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppTheme.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Tag: $tagNumber',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppTheme.textSecondary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Health status indicator
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: _getHealthStatusColor(healthStatus).withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: _getHealthStatusColor(healthStatus),
+                    width: 1,
+                  ),
+                ),
+                child: Text(
+                  healthStatus,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: _getHealthStatusColor(healthStatus),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  void _showLivestockDetails(Map<String, dynamic> animal) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(animal['name'] ?? 'Unknown'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Tag Number: ${animal['tagNumber'] ?? 'N/A'}'),
+            Text('Species: ${animal['species'] ?? 'N/A'}'),
+            Text('Breed: ${animal['breed'] ?? 'N/A'}'),
+            Text('Gender: ${animal['gender'] ?? 'N/A'}'),
+            Text('Health Status: ${animal['healthStatus'] ?? 'N/A'}'),
+            Text('Weight: ${animal['weight'] ?? 'N/A'}'),
+            Text('Color: ${animal['color'] ?? 'N/A'}'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAddLivestockDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Add New Animal'),
+        content: const Text('This feature will be implemented in the next version.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showErrorSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: AppTheme.errorColor,
+      ),
+    );
+  }
+
+  IconData _getSpeciesIcon(String species) {
+    switch (species.toLowerCase()) {
+      case 'cattle':
+        return Icons.pets;
+      case 'goat':
+        return Icons.pets;
+      case 'sheep':
+        return Icons.pets;
+      case 'pig':
+        return Icons.pets;
+      case 'chicken':
+        return Icons.pets;
+      default:
+        return Icons.pets;
+    }
+  }
+
+  Color _getHealthStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'healthy':
+        return AppTheme.successColor;
+      case 'sick':
+        return AppTheme.errorColor;
+      case 'recovering':
+        return AppTheme.warningColor;
+      default:
+        return AppTheme.textSecondary;
+    }
   }
 }
 

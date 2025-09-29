@@ -1,32 +1,34 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:math' as math;
 import 'package:flutter/services.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:image/image.dart' as img;
 import '../../domain/entities/diagnosis_result.dart';
 
 class TensorFlowService {
-  static const String _modelPath = 'assets/models/livestock_disease_model.tflite';
+  static const String _modelPath =
+      'assets/models/livestock_disease_model.tflite';
   static const String _diseasesPath = 'assets/diseases/disease_profiles.json';
-  
+
   static const int _inputSize = 224;
   static const int _numClasses = 10;
-  
+
   Interpreter? _interpreter;
   List<String> _diseaseNames = [];
-  
+
   Future<void> initialize() async {
     try {
       // Load the model
       _interpreter = await Interpreter.fromAsset(_modelPath);
-      
+
       // Load disease names
       await _loadDiseaseNames();
     } catch (e) {
       throw Exception('Failed to initialize TensorFlow model: $e');
     }
   }
-  
+
   Future<void> _loadDiseaseNames() async {
     try {
       final String jsonString = await rootBundle.loadString(_diseasesPath);
@@ -60,92 +62,89 @@ class TensorFlowService {
       ];
     }
   }
-  
+
   Future<DiagnosisResult> predictDisease(String imagePath) async {
     if (_interpreter == null) {
       throw Exception('TensorFlow model not initialized');
     }
-    
+
     try {
       // Load and preprocess image
       final imageBytes = await File(imagePath).readAsBytes();
       final image = img.decodeImage(imageBytes);
-      
+
       if (image == null) {
         throw Exception('Failed to decode image');
       }
-      
+
       // Resize image to model input size
       final resizedImage = img.copyResize(
         image,
         width: _inputSize,
         height: _inputSize,
       );
-      
+
       // Convert to float array and normalize
       final inputArray = _preprocessImage(resizedImage);
-      
+
       // Prepare output array
       final output = List.filled(_numClasses, 0.0).reshape([1, _numClasses]);
-      
+
       // Run inference
       _interpreter!.run(inputArray, output);
-      
+
       // Process results
       return _processOutput(output[0]);
     } catch (e) {
       throw Exception('Failed to predict disease: $e');
     }
   }
-  
+
   List<List<List<List<double>>>> _preprocessImage(img.Image image) {
     final inputArray = List.generate(
       1,
       (_) => List.generate(
         _inputSize,
-        (_) => List.generate(
-          _inputSize,
-          (_) => List.generate(3, (_) => 0.0),
-        ),
+        (_) => List.generate(_inputSize, (_) => List.generate(3, (_) => 0.0)),
       ),
     );
-    
+
     for (int y = 0; y < _inputSize; y++) {
       for (int x = 0; x < _inputSize; x++) {
         final pixel = image.getPixel(x, y);
         final r = img.getRed(pixel) / 255.0;
         final g = img.getGreen(pixel) / 255.0;
         final b = img.getBlue(pixel) / 255.0;
-        
+
         inputArray[0][y][x][0] = r;
         inputArray[0][y][x][1] = g;
         inputArray[0][y][x][2] = b;
       }
     }
-    
+
     return inputArray;
   }
-  
+
   DiagnosisResult _processOutput(List<double> predictions) {
     // Apply softmax to get probabilities
     final probabilities = _applySoftmax(predictions);
-    
+
     // Find the class with highest confidence
     int maxIndex = 0;
     double maxConfidence = 0.0;
-    
+
     for (int i = 0; i < probabilities.length; i++) {
       if (probabilities[i] > maxConfidence) {
         maxConfidence = probabilities[i];
         maxIndex = i;
       }
     }
-    
+
     // Get disease name
-    final diseaseName = maxIndex < _diseaseNames.length 
-        ? _diseaseNames[maxIndex] 
+    final diseaseName = maxIndex < _diseaseNames.length
+        ? _diseaseNames[maxIndex]
         : 'Unknown Disease';
-    
+
     // Get disease information
     final severity = _getDiseaseSeverity(diseaseName);
     final symptoms = _getDiseaseSymptoms(diseaseName);
@@ -155,7 +154,7 @@ class TensorFlowService {
     final affectedBodyParts = _getAffectedBodyParts(diseaseName);
     final mortalityRate = _getMortalityRate(diseaseName);
     final seasonality = _getSeasonality(diseaseName);
-    
+
     return DiagnosisResult(
       diseaseName: diseaseName,
       confidence: maxConfidence,
@@ -169,26 +168,26 @@ class TensorFlowService {
       seasonality: seasonality,
     );
   }
-  
+
   List<double> _applySoftmax(List<double> logits) {
     final probabilities = List<double>.filled(logits.length, 0.0);
-    double maxLogit = logits.reduce((a, b) => a > b ? a : b);
-    
+    final double maxLogit = logits.reduce((a, b) => a > b ? a : b);
+
     // Calculate sum of exponentials
     double sum = 0.0;
     for (int i = 0; i < logits.length; i++) {
-      probabilities[i] = (logits[i] - maxLogit).exp();
+      probabilities[i] = math.exp(logits[i] - maxLogit);
       sum += probabilities[i];
     }
-    
+
     // Normalize to get probabilities
     for (int i = 0; i < probabilities.length; i++) {
       probabilities[i] /= sum;
     }
-    
+
     return probabilities;
   }
-  
+
   String _getDiseaseSeverity(String diseaseName) {
     switch (diseaseName.toLowerCase()) {
       case 'anthrax':
@@ -210,7 +209,7 @@ class TensorFlowService {
         return 'Unknown';
     }
   }
-  
+
   String _getDiseaseSymptoms(String diseaseName) {
     switch (diseaseName.toLowerCase()) {
       case 'foot and mouth disease':
@@ -237,7 +236,7 @@ class TensorFlowService {
         return 'Symptoms vary';
     }
   }
-  
+
   String _getDiseaseTreatment(String diseaseName) {
     switch (diseaseName.toLowerCase()) {
       case 'foot and mouth disease':
@@ -264,7 +263,7 @@ class TensorFlowService {
         return 'Consult veterinarian for treatment';
     }
   }
-  
+
   String _getDiseasePrevention(String diseaseName) {
     switch (diseaseName.toLowerCase()) {
       case 'foot and mouth disease':
@@ -291,7 +290,7 @@ class TensorFlowService {
         return 'Maintain good biosecurity and health management';
     }
   }
-  
+
   bool _isDiseaseContagious(String diseaseName) {
     switch (diseaseName.toLowerCase()) {
       case 'foot and mouth disease':
@@ -310,7 +309,7 @@ class TensorFlowService {
         return false;
     }
   }
-  
+
   String _getAffectedBodyParts(String diseaseName) {
     switch (diseaseName.toLowerCase()) {
       case 'foot and mouth disease':
@@ -337,7 +336,7 @@ class TensorFlowService {
         return 'Various';
     }
   }
-  
+
   String _getMortalityRate(String diseaseName) {
     switch (diseaseName.toLowerCase()) {
       case 'anthrax':
@@ -360,7 +359,7 @@ class TensorFlowService {
         return 'Unknown';
     }
   }
-  
+
   String _getSeasonality(String diseaseName) {
     switch (diseaseName.toLowerCase()) {
       case 'foot and mouth disease':
@@ -377,7 +376,7 @@ class TensorFlowService {
         return 'All year';
     }
   }
-  
+
   void dispose() {
     _interpreter?.close();
     _interpreter = null;

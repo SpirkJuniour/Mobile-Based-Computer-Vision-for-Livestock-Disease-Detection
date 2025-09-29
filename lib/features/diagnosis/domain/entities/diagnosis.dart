@@ -1,20 +1,4 @@
 class Diagnosis {
-  final int? diagnosisId;
-  final int livestockId;
-  final int diseaseId;
-  final String imagePath;
-  final String diagnosisResult;
-  final double confidence;
-  final String status;
-  final String? notes;
-  final String? veterinarianNotes;
-  final String? treatmentPrescribed;
-  final String? followUpDate;
-  final bool isTreated;
-  final String? location;
-  final String? weatherConditions;
-  final DateTime diagnosisDate;
-  final DateTime lastUpdated;
 
   const Diagnosis({
     this.diagnosisId,
@@ -54,6 +38,43 @@ class Diagnosis {
       lastUpdated: now,
     );
   }
+
+  factory Diagnosis.fromMap(Map<String, dynamic> map) {
+    return Diagnosis(
+      diagnosisId: map['diagnosisId'],
+      livestockId: map['livestockId'],
+      diseaseId: map['diseaseId'],
+      imagePath: map['imagePath'],
+      diagnosisResult: map['diagnosisResult'],
+      confidence: map['confidence']?.toDouble() ?? 0.0,
+      status: map['status'],
+      notes: map['notes'],
+      veterinarianNotes: map['veterinarianNotes'],
+      treatmentPrescribed: map['treatmentPrescribed'],
+      followUpDate: map['followUpDate'],
+      isTreated: map['isTreated'] == 1,
+      location: map['location'],
+      weatherConditions: map['weatherConditions'],
+      diagnosisDate: DateTime.fromMillisecondsSinceEpoch(map['diagnosisDate']),
+      lastUpdated: DateTime.fromMillisecondsSinceEpoch(map['lastUpdated']),
+    );
+  }
+  final int? diagnosisId;
+  final int livestockId;
+  final int diseaseId;
+  final String imagePath;
+  final String diagnosisResult;
+  final double confidence;
+  final String status;
+  final String? notes;
+  final String? veterinarianNotes;
+  final String? treatmentPrescribed;
+  final String? followUpDate;
+  final bool isTreated;
+  final String? location;
+  final String? weatherConditions;
+  final DateTime diagnosisDate;
+  final DateTime lastUpdated;
 
   Diagnosis copyWith({
     int? diagnosisId,
@@ -112,27 +133,6 @@ class Diagnosis {
       'diagnosisDate': diagnosisDate.millisecondsSinceEpoch,
       'lastUpdated': lastUpdated.millisecondsSinceEpoch,
     };
-  }
-
-  factory Diagnosis.fromMap(Map<String, dynamic> map) {
-    return Diagnosis(
-      diagnosisId: map['diagnosisId'],
-      livestockId: map['livestockId'],
-      diseaseId: map['diseaseId'],
-      imagePath: map['imagePath'],
-      diagnosisResult: map['diagnosisResult'],
-      confidence: map['confidence']?.toDouble() ?? 0.0,
-      status: map['status'],
-      notes: map['notes'],
-      veterinarianNotes: map['veterinarianNotes'],
-      treatmentPrescribed: map['treatmentPrescribed'],
-      followUpDate: map['followUpDate'],
-      isTreated: map['isTreated'] == 1,
-      location: map['location'],
-      weatherConditions: map['weatherConditions'],
-      diagnosisDate: DateTime.fromMillisecondsSinceEpoch(map['diagnosisDate']),
-      lastUpdated: DateTime.fromMillisecondsSinceEpoch(map['lastUpdated']),
-    );
   }
 
   @override

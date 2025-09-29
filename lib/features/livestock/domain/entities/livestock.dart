@@ -1,19 +1,4 @@
 class Livestock {
-  final int? livestockId;
-  final String tagNumber;
-  final String name;
-  final String species;
-  final String breed;
-  final String gender;
-  final DateTime dateOfBirth;
-  final String? color;
-  final String? weight;
-  final String? healthStatus;
-  final String? vaccinationHistory;
-  final String? notes;
-  final String? imagePath;
-  final DateTime dateAdded;
-  final DateTime lastUpdated;
 
   const Livestock({
     this.livestockId,
@@ -54,6 +39,41 @@ class Livestock {
       lastUpdated: now,
     );
   }
+
+  factory Livestock.fromMap(Map<String, dynamic> map) {
+    return Livestock(
+      livestockId: map['livestockId'],
+      tagNumber: map['tagNumber'] ?? '',
+      name: map['name'] ?? '',
+      species: map['species'] ?? '',
+      breed: map['breed'] ?? '',
+      gender: map['gender'] ?? '',
+      dateOfBirth: DateTime.fromMillisecondsSinceEpoch(map['dateOfBirth']),
+      color: map['color'],
+      weight: map['weight'],
+      healthStatus: map['healthStatus'],
+      vaccinationHistory: map['vaccinationHistory'],
+      notes: map['notes'],
+      imagePath: map['imagePath'],
+      dateAdded: DateTime.fromMillisecondsSinceEpoch(map['dateAdded']),
+      lastUpdated: DateTime.fromMillisecondsSinceEpoch(map['lastUpdated']),
+    );
+  }
+  final int? livestockId;
+  final String tagNumber;
+  final String name;
+  final String species;
+  final String breed;
+  final String gender;
+  final DateTime dateOfBirth;
+  final String? color;
+  final String? weight;
+  final String? healthStatus;
+  final String? vaccinationHistory;
+  final String? notes;
+  final String? imagePath;
+  final DateTime dateAdded;
+  final DateTime lastUpdated;
 
   Livestock copyWith({
     int? livestockId,
@@ -109,26 +129,6 @@ class Livestock {
       'dateAdded': dateAdded.millisecondsSinceEpoch,
       'lastUpdated': lastUpdated.millisecondsSinceEpoch,
     };
-  }
-
-  factory Livestock.fromMap(Map<String, dynamic> map) {
-    return Livestock(
-      livestockId: map['livestockId'],
-      tagNumber: map['tagNumber'] ?? '',
-      name: map['name'] ?? '',
-      species: map['species'] ?? '',
-      breed: map['breed'] ?? '',
-      gender: map['gender'] ?? '',
-      dateOfBirth: DateTime.fromMillisecondsSinceEpoch(map['dateOfBirth']),
-      color: map['color'],
-      weight: map['weight'],
-      healthStatus: map['healthStatus'],
-      vaccinationHistory: map['vaccinationHistory'],
-      notes: map['notes'],
-      imagePath: map['imagePath'],
-      dateAdded: DateTime.fromMillisecondsSinceEpoch(map['dateAdded']),
-      lastUpdated: DateTime.fromMillisecondsSinceEpoch(map['lastUpdated']),
-    );
   }
 
   @override

@@ -1,14 +1,4 @@
 class DiagnosisResult {
-  final String diseaseName;
-  final double confidence;
-  final String severity;
-  final String symptoms;
-  final String treatment;
-  final String prevention;
-  final bool contagious;
-  final String affectedBodyParts;
-  final String mortalityRate;
-  final String seasonality;
 
   const DiagnosisResult({
     required this.diseaseName,
@@ -37,6 +27,31 @@ class DiagnosisResult {
       seasonality: '',
     );
   }
+
+  factory DiagnosisResult.fromMap(Map<String, dynamic> map) {
+    return DiagnosisResult(
+      diseaseName: map['diseaseName'] ?? 'Unknown',
+      confidence: map['confidence']?.toDouble() ?? 0.0,
+      severity: map['severity'] ?? 'Unknown',
+      symptoms: map['symptoms'] ?? '',
+      treatment: map['treatment'] ?? '',
+      prevention: map['prevention'] ?? '',
+      contagious: map['contagious'] ?? false,
+      affectedBodyParts: map['affectedBodyParts'] ?? '',
+      mortalityRate: map['mortalityRate'] ?? '',
+      seasonality: map['seasonality'] ?? '',
+    );
+  }
+  final String diseaseName;
+  final double confidence;
+  final String severity;
+  final String symptoms;
+  final String treatment;
+  final String prevention;
+  final bool contagious;
+  final String affectedBodyParts;
+  final String mortalityRate;
+  final String seasonality;
 
   DiagnosisResult copyWith({
     String? diseaseName,
@@ -77,21 +92,6 @@ class DiagnosisResult {
       'mortalityRate': mortalityRate,
       'seasonality': seasonality,
     };
-  }
-
-  factory DiagnosisResult.fromMap(Map<String, dynamic> map) {
-    return DiagnosisResult(
-      diseaseName: map['diseaseName'] ?? 'Unknown',
-      confidence: map['confidence']?.toDouble() ?? 0.0,
-      severity: map['severity'] ?? 'Unknown',
-      symptoms: map['symptoms'] ?? '',
-      treatment: map['treatment'] ?? '',
-      prevention: map['prevention'] ?? '',
-      contagious: map['contagious'] ?? false,
-      affectedBodyParts: map['affectedBodyParts'] ?? '',
-      mortalityRate: map['mortalityRate'] ?? '',
-      seasonality: map['seasonality'] ?? '',
-    );
   }
 
   @override

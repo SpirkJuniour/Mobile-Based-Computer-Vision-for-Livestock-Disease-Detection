@@ -125,9 +125,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     children: [
                       // Title
                       Text(
-                        isEnglish
-                            ? 'AI-Powered Livestock Disease Detection'
-                            : 'Utambuzi wa Magonjwa ya Mifugo Kwa AI',
+                        isEnglish ? 'MifugoCare' : 'MifugoCare',
                         style: const TextStyle(
                           color: AppColors.textWhite,
                           fontSize: 28,

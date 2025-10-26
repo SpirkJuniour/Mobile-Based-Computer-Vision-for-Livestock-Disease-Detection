@@ -1,73 +1,161 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/services.dart';
+import 'package:image/image.dart' as img;
+import 'package:tflite_flutter/tflite_flutter.dart';
 
-/// ML Service for disease classification
-/// Note: TensorFlow Lite temporarily disabled - returns mock data
+/// ML Service for disease classification using TensorFlow Lite
 class MLService {
   static final MLService instance = MLService._init();
 
+  Interpreter? _interpreter;
   List<String>? _labels;
 
-  bool get isInitialized => _labels != null;
+  static const String modelPath =
+      'assets/models/livestock_disease_model.tflite';
+  static const String labelsPath = 'assets/disease_labels.txt';
+
+  // Model input/output shapes
+  static const int inputSize = 224;
+  static const int numClasses = 11;
+
+  bool get isInitialized => _interpreter != null && _labels != null;
 
   MLService._init();
 
   /// Initialize the ML model
   Future<void> initialize() async {
     try {
+      print('🔄 Loading TFLite model from $modelPath...');
+
+      // Load the TFLite model
+      _interpreter = await Interpreter.fromAsset(modelPath);
+
+      // Get input and output tensor info
+      final inputTensor = _interpreter!.getInputTensor(0);
+      final outputTensor = _interpreter!.getOutputTensor(0);
+
+      print('✅ Model loaded successfully');
+      print('   Input shape: ${inputTensor.shape}');
+      print('   Input type: ${inputTensor.type}');
+      print('   Output shape: ${outputTensor.shape}');
+      print('   Output type: ${outputTensor.type}');
+
       // Load labels
-      final labelsData =
-          await rootBundle.loadString('assets/disease_labels.txt');
+      final labelsData = await rootBundle.loadString(labelsPath);
       _labels = labelsData
           .split('\n')
           .where((label) => label.trim().isNotEmpty)
           .toList();
 
-      print('ML Service initialized with ${_labels!.length} disease labels');
+      print('✅ ML Service initialized with ${_labels!.length} disease labels');
+
+      // Print labels for verification
+      for (int i = 0; i < _labels!.length; i++) {
+        print('   [$i] ${_labels![i]}');
+      }
     } catch (e) {
-      print('Error loading ML labels: $e');
-      // Fallback labels (match trained model classes)
-      _labels = [
-        ' (BRD)',
-        ' Bovine',
-        ' Contagious',
-        ' Dermatitis',
-        ' Disease',
-        ' Ecthym',
-        ' Respiratory',
-        ' Unlabeled',
-        ' healthy',
-        ' lumpy',
-        ' skin',
-      ];
+      print('❌ Error initializing ML Service: $e');
+      rethrow;
     }
   }
 
-  /// Predict disease from image (MOCK - returns random results)
+  /// Predict disease from image using real TFLite model
   Future<Map<String, dynamic>> predictDisease(File imageFile) async {
     if (!isInitialized) {
-      throw Exception('ML Service not initialized');
+      throw Exception('ML Service not initialized. Call initialize() first.');
     }
 
-    // Simulate processing time
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      print('🔄 Processing image for disease prediction...');
 
-    // Return mock prediction
-    final random = Random();
-    final diseaseIndex = random.nextInt(_labels!.length);
-    final confidence = 75.0 + (random.nextDouble() * 20); // 75-95%
+      // Read and decode image
+      final imageBytes = await imageFile.readAsBytes();
+      final image = img.decodeImage(imageBytes);
+      if (image == null) {
+        throw Exception('Failed to decode image');
+      }
 
-    // Interpret the label to a user-friendly disease name
-    final diseaseLabel = _labels![diseaseIndex];
-    final diseaseName = _interpretDiseaseLabel(diseaseLabel);
+      // Preprocess image
+      final input = _preprocessImage(image);
 
-    return {
-      'disease': diseaseName,
-      'confidence': confidence,
-      'diseaseIndex': diseaseIndex,
-      'rawLabel': diseaseLabel,
-    };
+      // Prepare output buffer [batch_size, num_classes]
+      final output = List.generate(1, (_) => List.filled(numClasses, 0.0));
+
+      // Run inference
+      final startTime = DateTime.now();
+      _interpreter!.run(input, output);
+      final inferenceTime = DateTime.now().difference(startTime).inMilliseconds;
+
+      print('✅ Inference completed in ${inferenceTime}ms');
+
+      // Process results
+      final probabilities = output[0].cast<double>();
+
+      // Find prediction with highest confidence
+      double maxConfidence = probabilities[0];
+      int maxIndex = 0;
+      for (int i = 1; i < probabilities.length; i++) {
+        if (probabilities[i] > maxConfidence) {
+          maxConfidence = probabilities[i];
+          maxIndex = i;
+        }
+      }
+
+      final rawLabel = _labels![maxIndex];
+      final diseaseName = _interpretDiseaseLabel(rawLabel);
+      final confidence = maxConfidence * 100; // Convert to percentage
+
+      print('✅ Prediction: $diseaseName (${confidence.toStringAsFixed(1)}%)');
+
+      return {
+        'disease': diseaseName,
+        'confidence': confidence,
+        'diseaseIndex': maxIndex,
+        'rawLabel': rawLabel,
+        'probabilities': probabilities,
+        'allLabels': _labels,
+        'inferenceTimeMs': inferenceTime,
+        'modelType': 'tflite',
+      };
+    } catch (e) {
+      print('❌ Error during prediction: $e');
+      rethrow;
+    }
+  }
+
+  /// Preprocess image for model input
+  /// Returns a properly shaped input tensor [1, 224, 224, 3]
+  List<List<List<List<double>>>> _preprocessImage(img.Image image) {
+    // Resize image to model input size (224x224)
+    final resizedImage = img.copyResize(
+      image,
+      width: inputSize,
+      height: inputSize,
+      interpolation: img.Interpolation.cubic,
+    );
+
+    // Create properly shaped input: [batch, height, width, channels]
+    List<List<List<List<double>>>> input = List.generate(
+      1, // batch size
+      (_) => List.generate(
+        inputSize, // height
+        (y) => List.generate(
+          inputSize, // width
+          (x) {
+            final pixel = resizedImage.getPixel(x, y);
+
+            // Extract RGB values and normalize to [0, 1]
+            final r = ((pixel >> 16) & 0xFF) / 255.0;
+            final g = ((pixel >> 8) & 0xFF) / 255.0;
+            final b = (pixel & 0xFF) / 255.0;
+
+            return [r, g, b]; // channels
+          },
+        ),
+      ),
+    );
+
+    return input;
   }
 
   /// Interpret ML model labels to user-friendly disease names
@@ -317,6 +405,8 @@ class MLService {
 
   /// Close/dispose
   void close() {
+    _interpreter?.close();
+    _interpreter = null;
     _labels = null;
   }
 }

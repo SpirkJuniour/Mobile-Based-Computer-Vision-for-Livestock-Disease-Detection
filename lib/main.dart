@@ -8,7 +8,7 @@ import 'core/config/supabase_options.dart';
 import 'core/config/app_theme.dart';
 import 'core/config/routes.dart';
 import 'core/services/database_service.dart';
-import 'core/services/ml_service_alternatives.dart';
+import 'core/services/ml_service.dart';
 import 'core/services/auth_service.dart';
 
 void main() async {
@@ -45,13 +45,14 @@ void main() async {
       debugPrint('Database initialization failed: $e');
     }
 
-    // Initialize ML model
+    // Initialize ML model with TensorFlow Lite
     try {
-      final mlService = MLServiceAlternatives();
-      await mlService.initialize();
-      debugPrint('ML Service initialized');
+      await MLService.instance.initialize();
+      debugPrint('ML Service initialized with TFLite model');
     } catch (e) {
       debugPrint('ML Service initialization failed: $e');
+      debugPrint(
+          '   Make sure livestock_disease_model.tflite is in assets/models/');
     }
 
     // Initialize Auth Service

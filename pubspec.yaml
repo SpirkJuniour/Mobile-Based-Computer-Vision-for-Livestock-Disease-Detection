@@ -36,9 +36,8 @@ dependencies:
   path_provider: ^2.1.1
   path: ^1.8.3
   
-  # ML - Using alternative ML service (image analysis based)
-  # Note: tflite_flutter not compatible with this platform
-  # The app uses MLServiceAlternatives for disease detection
+  # ML - TensorFlow Lite for on-device inference
+  tflite_flutter: ^0.10.4
   
   # Local Database
   sqflite: ^2.3.0

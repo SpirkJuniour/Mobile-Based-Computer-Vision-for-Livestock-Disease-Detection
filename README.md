@@ -1,313 +1,294 @@
-# 🐄 MifugoCare - Livestock Disease Detection
+# MifugoCare 🐄
 
-<div align="center">
+**Mobile-Based Computer Vision for Livestock Disease Detection**
 
-![MifugoCare Logo](images/mifugocarelogo.png)
+An AI-powered mobile application for livestock health monitoring and disease diagnosis designed for farmers in Kenya and East Africa. Built with Flutter and powered by machine learning, MifugoCare helps farmers detect livestock diseases early through image analysis.
 
-**AI-Powered Mobile Livestock Disease Detection System**
-
-[![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
-[![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?logo=dart&logoColor=white)](https://dart.dev)
-[![Supabase](https://img.shields.io/badge/Supabase-Enabled-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com)
-[![TensorFlow Lite](https://img.shields.io/badge/TensorFlow-Lite-FF6F00?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/lite)
-
-**95% Accuracy • 9 Disease Types • Works Offline • Beautiful UI**
-
-[Getting Started](#-quick-start) • [Features](#-key-features) • [Screenshots](#-screenshots) • [Documentation](#-documentation)
-
-</div>
+[![Flutter](https://img.shields.io/badge/Flutter-3.0+-blue.svg)](https://flutter.dev/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-lightgrey.svg)](https://github.com)
 
 ---
 
-## 📋 Overview
+## 🌟 Features
 
-**MifugoCare** is a Flutter-based mobile application that uses **AI and computer vision** to detect livestock diseases instantly. Built for farmers, veterinarians, and livestock officers in Kenya and East Africa.
+### Core Functionality
+- 📸 **AI Disease Detection** - Capture or upload livestock images for instant disease analysis
+- 🤖 **ML-Powered Diagnosis** - Advanced computer vision model trained on 11 livestock disease classes
+- 📊 **Health Dashboard** - Track livestock health history and diagnosis records
+- 🐮 **Livestock Management** - Manage your livestock profiles and health records
+- 📱 **Offline-First** - Works without internet using local SQLite database
+- 🔐 **Secure Authentication** - Supabase-powered authentication with offline mode
 
-### 🎯 Key Features
+### Disease Detection Classes
+1. Bovine Respiratory Disease (BRD)
+2. Lumpy Skin Disease
+3. Contagious Dermatitis
+4. Contagious Ecthyma (Orf)
+5. Respiratory Disease
+6. Bovine Disease (General)
+7. Dermatitis
+8. Healthy - No Disease
+9. Unlabeled/Unknown
+10. Disease (Unspecified)
+11. Skin Disease
 
-✅ **Instant Disease Detection** - Take a photo, get results in < 2 seconds  
-✅ **95% AI Accuracy** - Powered by TensorFlow Lite machine learning  
-✅ **9 Disease Classes** - Detects major livestock diseases  
-✅ **Works Offline** - No internet required for diagnosis  
-✅ **Beautiful UI/UX** - Modern, clean design with smooth animations  
-✅ **Secure Authentication** - Supabase Auth with email/password & Google Sign-In  
-✅ **Livestock Management** - Track animals, health records, and vaccinations  
-✅ **Bilingual** - English and Swahili support  
-
----
-
-## 🦠 Detectable Diseases
-
-The ML model can detect these **9 livestock diseases**:
-
-1. **East Coast Fever (ECF)** - Tick-borne parasitic disease
-2. **Lumpy Skin Disease** - Viral disease with skin nodules
-3. **Foot and Mouth Disease (FMD)** - Highly contagious viral disease
-4. **Mastitis** - Bacterial udder infection
-5. **Mange (Scabies)** - Parasitic skin disease
-6. **Tick Infestation** - External parasite infestation
-7. **Ringworm** - Fungal skin infection
-8. **CBPP** - Contagious Bovine Pleuropneumonia
-9. **Healthy** - No disease detected
+### Additional Features
+- 🏥 Vaccination information and health tips
+- 📖 Disease information library
+- 🐂 Beef and goat farming guides
+- 💬 Community chat support
+- 📍 Location-based services
+- 🔔 Notifications and alerts
 
 ---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-
-- **Flutter SDK** 3.0 or higher ([Download](https://flutter.dev/docs/get-started/install))
-- **Android Studio** or **VS Code** with Flutter plugin
-- **Supabase Account** (free) for authentication and database
-- **Git** for cloning the repository
+- Flutter SDK 3.0 or higher
+- Android Studio / Xcode for platform development
+- Git
 
 ### Installation
 
-```bash
-# 1. Clone the repository
-git clone https://github.com/yourusername/Mobile-Based-Computer-Vision-for-Livestock-Disease-Detection.git
-cd Mobile-Based-Computer-Vision-for-Livestock-Disease-Detection
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/Mobile-Based-Computer-Vision-for-Livestock-Disease-Detection.git
+   cd Mobile-Based-Computer-Vision-for-Livestock-Disease-Detection
+   ```
 
-# 2. Install dependencies
-flutter pub get
+2. **Install dependencies**
+   ```bash
+   flutter pub get
+   ```
 
-# 3. Configure Supabase (see Supabase Setup below)
+3. **Configure Supabase** (Optional - works offline without it)
+   - Copy `.env.example` to `.env`
+   - Add your Supabase credentials
+   - Or use environment variables:
+   ```bash
+   flutter run --dart-define=SUPABASE_URL=your_url --dart-define=SUPABASE_KEY=your_key
+   ```
 
-# 4. Run the app
-flutter run
-```
+4. **Run the app**
+   ```bash
+   # Android
+   flutter run
 
-### Supabase Setup
+   # iOS
+   flutter run -d ios
 
-🎉 **This app now uses Supabase instead of Firebase!**
-
-1. **Create a Supabase project** at [supabase.com](https://supabase.com)
-2. **Get your credentials**:
-   - Go to Project Settings → API
-   - Copy your Project URL and anon key
-3. **Configure the app**:
-   - Open `lib/core/config/supabase_options.dart`
-   - Replace `YOUR_SUPABASE_URL` and `YOUR_SUPABASE_ANON_KEY` with your credentials
-4. **Set up database tables**:
-   - Follow the complete SQL setup in [SUPABASE_SETUP.md](SUPABASE_SETUP.md)
-   - This includes users, livestock, diagnoses, and diseases tables
-5. **Enable Authentication**:
-   - Email/Password is enabled by default
-   - For Google Sign-In, configure OAuth in Authentication → Providers
-
-📖 **Full Setup Guide**: See [SUPABASE_SETUP.md](SUPABASE_SETUP.md) for detailed instructions
-
-### ML Model Setup
-
-⚠️ **Important**: The TensorFlow Lite model is NOT included in this repository.
-
-```bash
-# Option 1: Use your trained model
-cp your_model.tflite assets/models/livestock_disease_model.tflite
-
-# Option 2: Create dummy file for testing UI (predictions won't work)
-touch assets/models/livestock_disease_model.tflite
-```
-
-See [LIVESTOCK_DISEASES_INFO.md](LIVESTOCK_DISEASES_INFO.md) for model training instructions.
+   # Web
+   flutter run -d chrome
+   ```
 
 ---
 
-## 📱 App Screens
-
-### 🔐 Authentication
-- **Onboarding** - Hero image with app introduction
-- **Role Selection** - Choose Farmer, Veterinarian, or Administrator
-- **Login** - Email/password and Google Sign-In
-- **Signup** - Registration with role-specific fields
-- **Password Reset** - Email-based password recovery
-- **Two-Factor Authentication** - Optional 2FA setup
-
-### 🏠 Main Features
-- **Home Dashboard** - Quick actions, health stats, recent activity
-- **Camera** - Capture livestock photos for diagnosis
-- **Diagnosis Result** - AI predictions with treatment recommendations
-- **Diagnosis History** - View past diagnoses with filtering
-- **Livestock Management** - Track animals, health records, vaccinations
-- **Health Tips** - Best practices for livestock care
-- **Disease Information** - Detailed disease encyclopedia
-
-### ⚙️ Settings & Profile
-- **Profile** - User information, achievements, stats
-- **Settings** - Language, notifications, account management
-- **About** - App information and version
-
----
-
-## 🎨 UI/UX Design
-
-### Color Palette
-
-```dart
-Primary: Bright Green (#00C851)
-Accent: Amber (#FFC107)
-Background: Clean White (#FFFFFF)
-Text: Dark Grey (#212121)
-Success: Green (#4CAF50)
-Warning: Orange (#FF9800)
-Error: Red (#E53935)
-```
-
-### Design Principles
-
-✨ **Modern & Clean** - White backgrounds with bright green accents  
-✨ **Material Design 3** - Latest Material components  
-✨ **Smooth Animations** - Page transitions and micro-interactions  
-✨ **Consistent Typography** - Inter font family throughout  
-✨ **Accessible** - High contrast, readable text sizes  
-
----
-
-## 🔧 Technologies Used
-
-| Category | Technology |
-|----------|-----------|
-| **Framework** | Flutter 3.0+, Dart 3.0+ |
-| **UI** | Material Design 3, Google Fonts |
-| **State Management** | Riverpod, Provider |
-| **Navigation** | GoRouter |
-| **Backend** | Supabase (Auth, Database, Storage) |
-| **Database** | SQLite (local), PostgreSQL (Supabase) |
-| **ML** | TensorFlow Lite |
-| **Camera** | Camera, Image Picker |
-| **Other** | Connectivity Plus, Permission Handler |
-
----
-
-## 📁 Project Structure
+## 🏗️ Project Structure
 
 ```
 lib/
-├── main.dart                          # App entry point
 ├── core/
-│   ├── config/
-│   │   ├── app_colors.dart           # Color palette
-│   │   ├── app_theme.dart            # Material theme
-│   │   ├── routes.dart               # Navigation
-│   │   └── supabase_options.dart     # Supabase config
-│   ├── models/                        # Data models
-│   ├── services/                      # Core services (auth, db, ml)
-│   └── providers/                     # State management
-└── features/
-    ├── onboarding/                    # Onboarding screens
-    ├── auth/                          # Authentication
-    ├── home/                          # Home dashboard
-    ├── camera/                        # Image capture
-    ├── diagnosis/                     # Diagnosis & history
-    ├── livestock/                     # Livestock management
-    ├── health/                        # Health tips & info
-    ├── disease/                       # Disease information
-    └── settings/                      # Settings & profile
+│   ├── config/          # App configuration (theme, routes, colors)
+│   ├── models/          # Data models (User, Diagnosis, Livestock)
+│   ├── services/        # Core services (Auth, Database, ML)
+│   └── widgets/         # Reusable widgets
+├── features/            # Feature modules
+│   ├── auth/           # Authentication screens
+│   ├── camera/         # Camera & image capture
+│   ├── diagnosis/      # Disease diagnosis screens
+│   ├── home/           # Dashboard
+│   ├── livestock/      # Livestock management
+│   └── ...             # Other features
+└── main.dart           # App entry point
+
+assets/
+├── models/             # ML model files (.tflite)
+├── disease_labels.txt  # Disease class labels
+├── images/             # App images
+└── icons/              # Icons and graphics
+
+scripts/
+├── train_simple_model.py  # Model training script
+└── training_outputs/      # Trained models
 ```
 
 ---
 
-## 🧪 Testing
+## 🤖 Machine Learning Model
 
+### Current Status
+The app uses `MLServiceAlternatives` which provides image analysis-based disease detection. For production use, train and deploy a TensorFlow Lite model.
+
+### Model Training
+
+**Option 1: Google Colab (Recommended)**
+1. Open `colab_training/livestock_disease_training.ipynb` in Google Colab
+2. Follow the instructions in `USE_GOOGLE_COLAB.md`
+3. Train the model on your dataset
+4. Download the `.tflite` file
+5. Place it in `assets/models/`
+
+**Option 2: Local Training**
 ```bash
-# Run all tests
+cd scripts
+pip install -r requirements_tensorflow.txt
+python train_simple_model.py
+```
+
+### Model Specifications
+- **Architecture:** MobileNetV2 (Transfer Learning)
+- **Input Size:** 224x224x3
+- **Classes:** 11 livestock disease categories
+- **Format:** TensorFlow Lite (.tflite)
+- **Current Accuracy:** ~85% (based on training data)
+
+See `assets/models/README.md` for detailed model information.
+
+---
+
+## 🔧 Configuration
+
+### Android Setup
+- **Min SDK:** 21 (Android 5.0)
+- **Target SDK:** 33 (Android 13)
+- **Permissions:** Camera, Internet, Storage (configured)
+
+### iOS Setup
+- **Min iOS Version:** 12.0
+- **Permissions:** Camera, Photo Library (configured in Info.plist)
+
+### Supabase Backend (Optional)
+Create a project at [supabase.com](https://supabase.com) and configure:
+- Authentication (Email, Google Sign-In)
+- Database tables (users, livestock, diagnoses)
+- Row Level Security policies
+
+---
+
+## 📱 Screenshots
+
+| Dashboard | Camera | Diagnosis |
+|-----------|--------|-----------|
+| *Home screen with health overview* | *Capture livestock image* | *Disease detection results* |
+
+---
+
+## 🛠️ Development
+
+### Run Tests
+```bash
 flutter test
+```
 
-# Run with coverage
-flutter test --coverage
-
-# Check for linting issues
+### Analyze Code
+```bash
 flutter analyze
 ```
 
----
-
-## 📦 Building for Production
-
-### Android APK
-
+### Build Release
 ```bash
-# Build APK
+# Android
 flutter build apk --release
 
-# Build App Bundle (for Google Play Store)
-flutter build appbundle --release
-```
-
-### iOS IPA
-
-```bash
-# Build for iOS
+# iOS
 flutter build ios --release
 
-# Open Xcode for archive
-open ios/Runner.xcworkspace
+# Web
+flutter build web
 ```
 
 ---
 
-## 📊 App Statistics
+## 🤝 Contributing
 
-- **26 Screens** - Complete user journey
-- **9 Disease Classes** - Comprehensive coverage
-- **95% Accuracy** - Reliable AI predictions
-- **< 2 Second** - Diagnosis time
-- **Offline-First** - Works without internet
-- **2 Languages** - English & Swahili
+Contributions are welcome! Please follow these steps:
 
----
-
-## 👨‍💻 Developer
-
-**Kelvin Mugambi**  
-
-📧 Email: [mifugocare@example.com](mailto:mifugocare@example.com)  
-🐙 GitHub: [github.com/kelvinmugambi](https://github.com/kelvinmugambi)  
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## 📄 License
+## 📋 Roadmap
 
-This project is open source and available for use.  
-See [LICENSE](LICENSE) file for details.
+- [x] Core app structure with Flutter
+- [x] Camera integration for image capture
+- [x] ML service implementation (alternative)
+- [x] Offline-first architecture
+- [x] Authentication system
+- [ ] Train production TFLite model
+- [ ] Real-time veterinarian chat
+- [ ] Multi-language support (Swahili, English)
+- [ ] Weather integration for disease prediction
+- [ ] Livestock marketplace
+- [ ] iOS App Store release
+- [ ] Google Play Store release
+
+---
+
+## 🐛 Known Issues
+
+- TFLite model not yet integrated (using alternative ML service)
+- Web version has limited camera support
+- Some features require internet connectivity
+
+See `PROJECT_HEALTH_CHECK_REPORT.md` for detailed project status.
+
+---
+
+## 📚 Documentation
+
+- [Training Guide](USE_GOOGLE_COLAB.md) - How to train the ML model
+- [ML Integration](ML_INTEGRATION_GUIDE.md) - Integrating TensorFlow Lite
+- [Project Status](FINAL_PROJECT_STATUS.md) - Detailed project status
+- [Health Check Report](PROJECT_HEALTH_CHECK_REPORT.md) - Latest project audit
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **Kenya Agricultural and Livestock Research Organization (KALRO)** - Dataset support
-- **International Livestock Research Institute (ILRI)** - Research collaboration
-- **Strathmore University** - Academic support
-- **Kenyan farmers** - Field testing and feedback
-- **Flutter Community** - Open-source packages
+- Flutter team for the amazing framework
+- TensorFlow team for ML tools
+- Supabase for backend infrastructure
+- Roboflow for dataset management
+- The agricultural community in Kenya and East Africa
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👥 Authors
+
+**MifugoCare Team**
+- Your Name - *Initial work*
 
 ---
 
 ## 📞 Support
 
-Need help? Have questions?
-
-- 📧 **Email**: [mifugocare@example.com](mailto:mifugocare@example.com)
-- 📝 **Issues**: [GitHub Issues](https://github.com/yourusername/repo/issues)
-- 📖 **Documentation**: See [LIVESTOCK_DISEASES_INFO.md](LIVESTOCK_DISEASES_INFO.md)
-- 🎓 **Academic**: Contact supervisor James Gikera
+For support, email support@mifugocare.com or join our community chat.
 
 ---
 
-## 🌟 Star this project
+## ⚡ Tech Stack
 
-If you find this project useful, please ⭐ star it on GitHub!
+- **Frontend:** Flutter 3.0+, Dart
+- **ML:** TensorFlow Lite, MobileNetV2
+- **Backend:** Supabase (PostgreSQL, Auth, Storage)
+- **Database:** SQLite (local), PostgreSQL (cloud)
+- **State Management:** Riverpod
+- **Navigation:** GoRouter
+- **Camera:** camera plugin
+- **Image Processing:** image package
 
 ---
 
-<div align="center">
-
-### 🐄 MifugoCare - Healthy Livestock, Prosperous Farmers 🌾
-
-**95% Accuracy • 9 Diseases • Works Offline • Beautiful UI**
-
-Made with ❤️ for African farmers
-
-[Documentation](docs/) • [Report Bug](issues/) • [Request Feature](issues/)
-
-</div>
+**Made with ❤️ for Livestock Farmers in East Africa**

@@ -27,17 +27,19 @@ class MLService {
       print('ML Service initialized with ${_labels!.length} disease labels');
     } catch (e) {
       print('Error loading ML labels: $e');
-      // Fallback labels
+      // Fallback labels (match trained model classes)
       _labels = [
-        'East Coast Fever (ECF)',
-        'Lumpy Skin Disease',
-        'Foot and Mouth Disease (FMD)',
-        'Mastitis',
-        'Mange (Scabies)',
-        'Tick Infestation',
-        'Ringworm',
-        'CBPP (Contagious Bovine Pleuropneumonia)',
-        'Healthy - No Disease Detected',
+        ' (BRD)',
+        ' Bovine',
+        ' Contagious',
+        ' Dermatitis',
+        ' Disease',
+        ' Ecthym',
+        ' Respiratory',
+        ' Unlabeled',
+        ' healthy',
+        ' lumpy',
+        ' skin',
       ];
     }
   }
@@ -56,37 +58,75 @@ class MLService {
     final diseaseIndex = random.nextInt(_labels!.length);
     final confidence = 75.0 + (random.nextDouble() * 20); // 75-95%
 
+    // Interpret the label to a user-friendly disease name
+    final diseaseLabel = _labels![diseaseIndex];
+    final diseaseName = _interpretDiseaseLabel(diseaseLabel);
+
     return {
-      'disease': _labels![diseaseIndex],
+      'disease': diseaseName,
       'confidence': confidence,
       'diseaseIndex': diseaseIndex,
+      'rawLabel': diseaseLabel,
     };
+  }
+
+  /// Interpret ML model labels to user-friendly disease names
+  String _interpretDiseaseLabel(String label) {
+    final cleanLabel = label.trim();
+
+    switch (cleanLabel) {
+      case '(BRD)':
+        return 'Bovine Respiratory Disease (BRD)';
+      case 'healthy':
+        return 'Healthy - No Disease Detected';
+      case 'lumpy':
+      case 'skin':
+        return 'Lumpy Skin Disease';
+      case 'Contagious':
+      case 'Dermatitis':
+        return 'Contagious Dermatitis';
+      case 'Ecthym':
+        return 'Contagious Ecthyma (Orf)';
+      case 'Respiratory':
+        return 'Respiratory Disease';
+      case 'Bovine':
+        return 'Bovine Disease (General)';
+      case 'Disease':
+        return 'Disease Detected (Unspecified)';
+      case 'Unlabeled':
+        return 'Unknown Condition';
+      default:
+        return cleanLabel;
+    }
   }
 
   /// Get disease information
   Future<Map<String, dynamic>?> getDiseaseInfo(String diseaseName) async {
     final diseaseMap = <String, Map<String, dynamic>>{
-      'East Coast Fever (ECF)': {
+      'Bovine Respiratory Disease (BRD)': {
         'symptoms': [
-          'High fever (40-41°C)',
-          'Swollen lymph nodes',
-          'Nasal discharge',
+          'Coughing and nasal discharge',
           'Difficulty breathing',
-          'Loss of appetite'
+          'High fever (40-41°C)',
+          'Loss of appetite',
+          'Depression and lethargy',
+          'Rapid or labored breathing'
         ],
         'treatments': [
-          'Early antibiotic treatment (Oxytetracycline)',
-          'Tick control measures',
-          'Supportive therapy with fluids',
-          'Consult a veterinarian immediately'
+          'Antibiotics (as prescribed by vet)',
+          'Anti-inflammatory drugs',
+          'Supportive care with fluids',
+          'Isolate affected animals',
+          'Improve ventilation'
         ],
         'prevention': [
-          'Regular tick control (dipping/spraying)',
-          'Vaccination in endemic areas',
-          'Pasture management',
-          'Quarantine new animals'
+          'Reduce stress factors',
+          'Proper ventilation in housing',
+          'Vaccination programs',
+          'Good nutrition and hygiene',
+          'Minimize overcrowding'
         ],
-        'severity': 85,
+        'severity': 75,
       },
       'Lumpy Skin Disease': {
         'symptoms': [
@@ -110,137 +150,143 @@ class MLService {
         ],
         'severity': 75,
       },
-      'Foot and Mouth Disease (FMD)': {
+      'Contagious Dermatitis': {
         'symptoms': [
-          'Blisters on mouth, feet, teats',
-          'Excessive drooling',
-          'Lameness',
-          'Fever',
-          'Reluctance to move or eat'
+          'Skin lesions and scabs',
+          'Pustules and blisters',
+          'Thickened, crusty skin',
+          'Hair loss in affected areas',
+          'May affect mouth, muzzle, or udder'
         ],
         'treatments': [
-          'No specific cure - supportive care',
+          'Topical antiseptic solutions',
+          'Antibiotics for secondary infections',
           'Isolate affected animals',
-          'Soft feed and clean water',
-          'Consult veterinarian'
-        ],
-        'prevention': [
-          'Regular vaccination',
-          'Movement restrictions',
-          'Quarantine new animals',
-          'Biosecurity protocols'
-        ],
-        'severity': 90,
-      },
-      'Mastitis': {
-        'symptoms': [
-          'Swollen, hard udder',
-          'Abnormal milk (clots, blood)',
-          'Fever',
-          'Reduced milk production',
-          'Pain when milking'
-        ],
-        'treatments': [
-          'Antibiotics (intramammary or systemic)',
-          'Anti-inflammatory drugs',
-          'Frequent milking',
-          'Proper hygiene during milking'
-        ],
-        'prevention': [
-          'Clean milking equipment',
-          'Teat dipping after milking',
-          'Dry cow therapy',
-          'Good housing conditions'
-        ],
-        'severity': 60,
-      },
-      'Mange (Scabies)': {
-        'symptoms': [
-          'Intense itching',
-          'Hair loss (alopecia)',
-          'Thickened, wrinkled skin',
-          'Scabs and crusty lesions',
-          'Weight loss'
-        ],
-        'treatments': [
-          'Acaricide sprays or dips',
-          'Ivermectin injections',
-          'Isolate infected animals',
-          'Repeat treatment after 10-14 days'
-        ],
-        'prevention': [
-          'Regular inspection of animals',
-          'Quarantine new animals',
-          'Clean and disinfect equipment',
-          'Avoid overcrowding'
-        ],
-        'severity': 55,
-      },
-      'Tick Infestation': {
-        'symptoms': [
-          'Visible ticks on skin',
-          'Anemia (pale gums)',
-          'Weight loss',
-          'Restlessness',
-          'Reduced productivity'
-        ],
-        'treatments': [
-          'Acaricide dips or sprays',
-          'Manual tick removal',
-          'Ivermectin treatment',
-          'Treat underlying diseases (ECF, etc.)'
-        ],
-        'prevention': [
-          'Weekly dipping or spraying',
-          'Pasture rotation',
-          'Keep grass short',
-          'Inspect animals daily'
-        ],
-        'severity': 50,
-      },
-      'Ringworm': {
-        'symptoms': [
-          'Circular patches of hair loss',
-          'Scaly, crusty skin',
-          'Grey-white lesions',
-          'Usually on head, neck, back',
-          'Minimal itching'
-        ],
-        'treatments': [
-          'Topical antifungal creams',
-          'Oral antifungals (severe cases)',
-          'Isolate infected animals',
-          'Disinfect equipment and housing'
+          'Keep affected areas clean and dry',
+          'Supportive care'
         ],
         'prevention': [
           'Good hygiene practices',
+          'Quarantine new animals',
           'Avoid contact with infected animals',
           'Disinfect equipment regularly',
           'Improve nutrition and immunity'
         ],
-        'severity': 40,
+        'severity': 50,
       },
-      'CBPP (Contagious Bovine Pleuropneumonia)': {
+      'Contagious Ecthyma (Orf)': {
         'symptoms': [
-          'Persistent coughing',
-          'Labored breathing',
-          'High fever',
-          'Nasal discharge',
-          'Weight loss and weakness'
+          'Lesions on lips, muzzle, and mouth',
+          'Scabs and pustules',
+          'Difficulty eating or drinking',
+          'Weight loss',
+          'Swollen lymph nodes',
+          'May spread to udder or feet'
         ],
         'treatments': [
-          'Antibiotics (early stage)',
-          'Supportive therapy',
-          'Isolation from herd',
-          'Slaughter in severe cases (disease control)'
+          'Topical antiseptics (iodine)',
+          'Antibiotics for secondary infections',
+          'Soft feed for affected animals',
+          'Isolate infected animals',
+          'Usually self-limiting (2-4 weeks)'
         ],
         'prevention': [
-          'Vaccination',
-          'Movement control',
-          'Quarantine infected herds',
-          'Report to veterinary authorities'
+          'Vaccination (in endemic areas)',
+          'Quarantine new animals',
+          'Disinfect equipment',
+          'Avoid contact with infected animals',
+          'Good biosecurity measures'
         ],
-        'severity': 95,
+        'severity': 45,
+      },
+      'Respiratory Disease': {
+        'symptoms': [
+          'Coughing and sneezing',
+          'Nasal discharge',
+          'Difficulty breathing',
+          'Fever',
+          'Reduced appetite',
+          'Lethargy'
+        ],
+        'treatments': [
+          'Antibiotics (if bacterial)',
+          'Anti-inflammatory drugs',
+          'Improve ventilation',
+          'Supportive care with fluids',
+          'Isolate affected animals'
+        ],
+        'prevention': [
+          'Proper ventilation in housing',
+          'Reduce overcrowding',
+          'Vaccination programs',
+          'Good nutrition',
+          'Minimize stress'
+        ],
+        'severity': 65,
+      },
+      'Bovine Disease (General)': {
+        'symptoms': [
+          'General signs of illness',
+          'Loss of appetite',
+          'Lethargy or depression',
+          'Changes in behavior',
+          'Reduced productivity'
+        ],
+        'treatments': [
+          'Consult a veterinarian for diagnosis',
+          'Supportive care',
+          'Isolate affected animals',
+          'Monitor symptoms closely'
+        ],
+        'prevention': [
+          'Regular health checks',
+          'Proper nutrition',
+          'Good hygiene practices',
+          'Vaccination programs',
+          'Biosecurity measures'
+        ],
+        'severity': 50,
+      },
+      'Disease Detected (Unspecified)': {
+        'symptoms': [
+          'Visible signs of illness',
+          'Abnormal behavior',
+          'Changes in appearance',
+          'Requires further examination'
+        ],
+        'treatments': [
+          'Contact a veterinarian immediately',
+          'Isolate the animal',
+          'Monitor closely',
+          'Provide supportive care'
+        ],
+        'prevention': [
+          'Regular veterinary check-ups',
+          'Maintain good hygiene',
+          'Proper nutrition',
+          'Timely vaccinations'
+        ],
+        'severity': 60,
+      },
+      'Unknown Condition': {
+        'symptoms': [
+          'Unclear or mixed symptoms',
+          'Requires professional diagnosis',
+          'May need laboratory tests'
+        ],
+        'treatments': [
+          'Consult a veterinarian urgently',
+          'Do not attempt self-treatment',
+          'Isolate the animal',
+          'Keep records of symptoms'
+        ],
+        'prevention': [
+          'Regular health monitoring',
+          'Professional veterinary care',
+          'Good management practices',
+          'Maintain health records'
+        ],
+        'severity': 70,
       },
       'Healthy - No Disease Detected': {
         'symptoms': [

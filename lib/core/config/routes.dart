@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../services/auth_service.dart';
@@ -8,7 +7,6 @@ import '../../features/auth/role_selection_screen.dart';
 import '../../features/auth/login_screen.dart';
 import '../../features/auth/signup_screen.dart';
 import '../../features/auth/password_reset_screen.dart';
-import '../../features/auth/two_factor_auth_screen.dart';
 import '../../features/home/home_dashboard_screen.dart';
 import '../../features/camera/camera_screen.dart';
 import '../../features/diagnosis/diagnosis_result_screen.dart';
@@ -66,11 +64,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/password-reset',
         name: 'password-reset',
         builder: (context, state) => const PasswordResetScreen(),
-      ),
-      GoRoute(
-        path: '/two-factor-auth',
-        name: 'two-factor-auth',
-        builder: (context, state) => const TwoFactorAuthScreen(),
       ),
 
       // Main App

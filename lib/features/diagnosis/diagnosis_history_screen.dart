@@ -198,7 +198,7 @@ class _DiagnosisHistoryScreenState extends State<DiagnosisHistoryScreen>
                         const SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.analytics,
+                            const Icon(Icons.analytics,
                                 size: 14, color: AppColors.textLight),
                             const SizedBox(width: 4),
                             Text(
@@ -261,7 +261,7 @@ class _DiagnosisHistoryScreenState extends State<DiagnosisHistoryScreen>
               // Additional Info Row
               Row(
                 children: [
-                  Icon(Icons.pets, size: 16, color: AppColors.textLight),
+                  const Icon(Icons.pets, size: 16, color: AppColors.textLight),
                   const SizedBox(width: 4),
                   Text(
                     'Cow #${100 + (index % 12)}',
@@ -271,7 +271,7 @@ class _DiagnosisHistoryScreenState extends State<DiagnosisHistoryScreen>
                     ),
                   ),
                   const SizedBox(width: 16),
-                  Icon(Icons.calendar_today,
+                  const Icon(Icons.calendar_today,
                       size: 16, color: AppColors.textLight),
                   const SizedBox(width: 4),
                   Text(
@@ -304,7 +304,7 @@ class _DiagnosisHistoryScreenState extends State<DiagnosisHistoryScreen>
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Icon(
+                  const Icon(
                     Icons.arrow_forward_ios,
                     size: 14,
                     color: AppColors.textLight,

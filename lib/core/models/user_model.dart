@@ -2,7 +2,7 @@ enum UserRole {
   farmer,
   veterinarian,
   administrator;
-  
+
   String get displayName {
     switch (this) {
       case UserRole.farmer:
@@ -13,7 +13,7 @@ enum UserRole {
         return 'Administrator';
     }
   }
-  
+
   String get description {
     switch (this) {
       case UserRole.farmer:
@@ -39,8 +39,7 @@ class UserModel {
   final String? authToken; // For offline authentication
   final DateTime? tokenExpiry;
   final bool isVerified;
-  final bool twoFactorEnabled;
-  
+
   UserModel({
     required this.userId,
     required this.email,
@@ -54,15 +53,14 @@ class UserModel {
     this.authToken,
     this.tokenExpiry,
     this.isVerified = false,
-    this.twoFactorEnabled = false,
   });
-  
+
   /// Check if offline token is valid
   bool get isTokenValid {
     if (authToken == null || tokenExpiry == null) return false;
     return DateTime.now().isBefore(tokenExpiry!);
   }
-  
+
   /// Copy with method for updates
   UserModel copyWith({
     String? userId,
@@ -77,7 +75,6 @@ class UserModel {
     String? authToken,
     DateTime? tokenExpiry,
     bool? isVerified,
-    bool? twoFactorEnabled,
   }) {
     return UserModel(
       userId: userId ?? this.userId,
@@ -92,10 +89,9 @@ class UserModel {
       authToken: authToken ?? this.authToken,
       tokenExpiry: tokenExpiry ?? this.tokenExpiry,
       isVerified: isVerified ?? this.isVerified,
-      twoFactorEnabled: twoFactorEnabled ?? this.twoFactorEnabled,
     );
   }
-  
+
   /// Convert to Supabase map (for database insert/update)
   Map<String, dynamic> toSupabase() {
     return {
@@ -111,10 +107,9 @@ class UserModel {
       'auth_token': authToken,
       'token_expiry': tokenExpiry?.toIso8601String(),
       'is_verified': isVerified,
-      'two_factor_enabled': twoFactorEnabled,
     };
   }
-  
+
   /// Create from Supabase map
   factory UserModel.fromSupabase(Map<String, dynamic> data) {
     return UserModel(
@@ -126,18 +121,17 @@ class UserModel {
       profileImageUrl: data['profile_image_url'] as String?,
       licenseNumber: data['license_number'] as String?,
       createdAt: DateTime.parse(data['created_at'] as String),
-      lastLogin: data['last_login'] != null 
+      lastLogin: data['last_login'] != null
           ? DateTime.parse(data['last_login'] as String)
           : null,
       authToken: data['auth_token'] as String?,
-      tokenExpiry: data['token_expiry'] != null 
+      tokenExpiry: data['token_expiry'] != null
           ? DateTime.parse(data['token_expiry'] as String)
           : null,
       isVerified: data['is_verified'] as bool? ?? false,
-      twoFactorEnabled: data['two_factor_enabled'] as bool? ?? false,
     );
   }
-  
+
   /// Convert to JSON for local database
   Map<String, dynamic> toJson() {
     return {
@@ -153,10 +147,9 @@ class UserModel {
       'authToken': authToken,
       'tokenExpiry': tokenExpiry?.toIso8601String(),
       'isVerified': isVerified,
-      'twoFactorEnabled': twoFactorEnabled,
     };
   }
-  
+
   /// Create from JSON (local database)
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -168,16 +161,14 @@ class UserModel {
       profileImageUrl: json['profileImageUrl'] as String?,
       licenseNumber: json['licenseNumber'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
-      lastLogin: json['lastLogin'] != null 
-          ? DateTime.parse(json['lastLogin'] as String) 
+      lastLogin: json['lastLogin'] != null
+          ? DateTime.parse(json['lastLogin'] as String)
           : null,
       authToken: json['authToken'] as String?,
-      tokenExpiry: json['tokenExpiry'] != null 
-          ? DateTime.parse(json['tokenExpiry'] as String) 
+      tokenExpiry: json['tokenExpiry'] != null
+          ? DateTime.parse(json['tokenExpiry'] as String)
           : null,
       isVerified: json['isVerified'] as bool? ?? false,
-      twoFactorEnabled: json['twoFactorEnabled'] as bool? ?? false,
     );
   }
 }
-

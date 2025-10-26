@@ -88,7 +88,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 // Icon
                 Container(
                   padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppColors.primaryLight,
                     shape: BoxShape.circle,
                   ),
@@ -202,7 +202,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   decoration: InputDecoration(
                     labelText: 'Confirm New Password',
                     hintText: 'Re-enter your new password',
-                    prefixIcon: const Icon(Icons.lock_check),
+                    prefixIcon: const Icon(Icons.check_circle),
                     suffixIcon: IconButton(
                       icon: Icon(
                         _obscureConfirmPassword
@@ -236,7 +236,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: AppColors.infoLight,
+                    color: const Color(0xFFE3F2FD),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(

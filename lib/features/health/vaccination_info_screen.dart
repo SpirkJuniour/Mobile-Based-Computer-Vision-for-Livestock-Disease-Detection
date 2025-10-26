@@ -14,9 +14,9 @@ class VaccinationInfoScreen extends StatelessWidget {
         itemBuilder: (context, index) => Card(
           margin: const EdgeInsets.only(bottom: 16),
           child: ListTile(
-            leading: CircleAvatar(
+            leading: const CircleAvatar(
               backgroundColor: AppColors.info,
-              child: const Icon(Icons.vaccines, color: AppColors.textWhite),
+              child: Icon(Icons.vaccines, color: AppColors.textWhite),
             ),
             title: Text('Vaccination Schedule #${index + 1}'),
             subtitle: const Text('Details about vaccination...'),

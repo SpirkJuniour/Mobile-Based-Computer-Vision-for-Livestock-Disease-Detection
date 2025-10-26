@@ -1,6 +1,6 @@
 {
-    "name": "mifugocare",
-    "short_name": "mifugocare",
+    "name": "mifugo_care",
+    "short_name": "mifugo_care",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,4 +1,4 @@
-name: mifugocare
+name: mifugo_care
 description: Mobile-Based Computer Vision for Livestock Disease Detection - AI-powered livestock health monitoring and disease diagnosis system for farmers in Kenya and East Africa
 publish_to: 'none'
 version: 1.0.0+1
@@ -18,7 +18,6 @@ dependencies:
   shimmer: ^3.0.0
   
   # State Management
-  provider: ^6.1.1
   flutter_riverpod: ^2.4.9
   
   # Navigation
@@ -37,17 +36,13 @@ dependencies:
   path_provider: ^2.1.1
   path: ^1.8.3
   
-  # ML & TensorFlow Lite for Disease Detection
-  # tflite_flutter: ^0.9.0
-  # tflite_flutter_helper: ^0.3.1
-  # Note: ML packages temporarily disabled due to dependency conflicts
-  # App will run without ML - add these back later for disease detection
+  # ML - Using alternative ML service (image analysis based)
+  # Note: tflite_flutter not compatible with this platform
+  # The app uses MLServiceAlternatives for disease detection
   
   # Local Database
   sqflite: ^2.3.0
   shared_preferences: ^2.2.2
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
   
   # Utilities
   intl: ^0.18.1
@@ -71,9 +66,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.1
-  hive_generator: ^2.0.1
-  build_runner: ^2.4.7
-
 flutter:
   uses-material-design: true
   

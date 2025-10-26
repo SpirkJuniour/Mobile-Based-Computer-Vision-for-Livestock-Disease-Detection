@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'core/config/supabase_options.dart';
 import 'core/config/app_theme.dart';
 import 'core/config/routes.dart';
 import 'core/services/database_service.dart';
-import 'core/services/ml_service.dart';
+import 'core/services/ml_service_alternatives.dart';
 import 'core/services/auth_service.dart';
 
 void main() async {
@@ -17,7 +16,7 @@ void main() async {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    debugPrint('🚀 MifugoCare starting...');
+    debugPrint('MifugoCare starting...');
 
     // Initialize Supabase
     try {
@@ -29,47 +28,38 @@ void main() async {
           authFlowType: AuthFlowType.pkce,
         ),
       );
-      debugPrint('✓ Supabase initialized');
+      debugPrint('Supabase initialized');
     } catch (e) {
-      debugPrint('⚠️ Supabase initialization failed: $e');
+      debugPrint('Supabase initialization failed: $e');
       debugPrint(
           '   Make sure to update SupabaseConfig with your project credentials');
-    }
-
-    // Initialize Hive for local storage (skip on web)
-    try {
-      if (!kIsWeb) {
-        await Hive.initFlutter();
-        debugPrint('✓ Hive initialized');
-      }
-    } catch (e) {
-      debugPrint('⚠️ Hive initialization failed: $e');
     }
 
     // Initialize local database (skip on web - SQLite doesn't work on web)
     try {
       if (!kIsWeb) {
         await DatabaseService.instance.initialize();
-        debugPrint('✓ Database initialized');
+        debugPrint('Database initialized');
       }
     } catch (e) {
-      debugPrint('⚠️ Database initialization failed: $e');
+      debugPrint('Database initialization failed: $e');
     }
 
     // Initialize ML model
     try {
-      await MLService.instance.initialize();
-      debugPrint('✓ ML Service initialized');
+      final mlService = MLServiceAlternatives();
+      await mlService.initialize();
+      debugPrint('ML Service initialized');
     } catch (e) {
-      debugPrint('⚠️ ML Service initialization failed: $e');
+      debugPrint('ML Service initialization failed: $e');
     }
 
     // Initialize Auth Service
     try {
       await AuthService.instance.initialize();
-      debugPrint('✓ Auth Service initialized');
+      debugPrint('Auth Service initialized');
     } catch (e) {
-      debugPrint('⚠️ Auth Service initialization failed: $e');
+      debugPrint('Auth Service initialization failed: $e');
     }
 
     // Set system UI overlay style
@@ -82,9 +72,9 @@ void main() async {
           systemNavigationBarIconBrightness: Brightness.dark,
         ),
       );
-      debugPrint('✓ System UI configured');
+      debugPrint('System UI configured');
     } catch (e) {
-      debugPrint('⚠️ System UI configuration failed: $e');
+      debugPrint('System UI configuration failed: $e');
     }
 
     // Lock orientation to portrait
@@ -93,12 +83,12 @@ void main() async {
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
       ]);
-      debugPrint('✓ Orientation locked');
+      debugPrint('Orientation locked');
     } catch (e) {
-      debugPrint('⚠️ Orientation lock failed: $e');
+      debugPrint('Orientation lock failed: $e');
     }
 
-    debugPrint('✓ MifugoCare initialization complete - launching app!');
+    debugPrint('MifugoCare initialization complete - launching app!');
 
     runApp(
       const ProviderScope(
@@ -106,7 +96,7 @@ void main() async {
       ),
     );
   }, (error, stack) {
-    debugPrint('❌ Fatal error during startup: $error');
+    debugPrint('Fatal error during startup: $error');
     debugPrint('Stack trace: $stack');
     // Still try to run the app even if there's an error
     runApp(
@@ -139,7 +129,7 @@ class MifugoCareApp extends ConsumerWidget {
         routerConfig: router,
       );
     } catch (e, stackTrace) {
-      debugPrint('❌ Error building app: $e');
+      debugPrint('Error building app: $e');
       debugPrint('Stack trace: $stackTrace');
 
       // Return error screen

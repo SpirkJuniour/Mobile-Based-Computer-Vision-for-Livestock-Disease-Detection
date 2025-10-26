@@ -220,7 +220,6 @@ class AuthService {
         licenseNumber: licenseNumber,
         createdAt: DateTime.now(),
         isVerified: false,
-        twoFactorEnabled: false,
       );
 
       // Save to Supabase database
@@ -275,7 +274,7 @@ class AuthService {
 
       // Check if user exists in database
       try {
-        final existingUser = await _supabase!
+        await _supabase!
             .from('users')
             .select()
             .eq('user_id', response.user!.id)
@@ -295,7 +294,6 @@ class AuthService {
               response.user!.userMetadata?['picture'],
           createdAt: DateTime.now(),
           isVerified: true,
-          twoFactorEnabled: false,
         );
 
         await _supabase!.from('users').insert(user.toSupabase());

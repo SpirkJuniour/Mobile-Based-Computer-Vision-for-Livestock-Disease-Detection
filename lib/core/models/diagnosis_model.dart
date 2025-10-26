@@ -12,6 +12,7 @@ class DiagnosisModel {
   final int severityLevel; // 0-100
   final String? notes;
   final bool isSynced;
+  final Map<String, dynamic>? rawData; // Raw ML analysis data
   
   DiagnosisModel({
     required this.id,
@@ -27,6 +28,7 @@ class DiagnosisModel {
     required this.severityLevel,
     this.notes,
     this.isSynced = false,
+    this.rawData,
   });
   
   /// Get confidence description
@@ -64,6 +66,7 @@ class DiagnosisModel {
       'severityLevel': severityLevel,
       'notes': notes,
       'isSynced': isSynced,
+      'rawData': rawData,
     };
   }
   
@@ -83,6 +86,7 @@ class DiagnosisModel {
       severityLevel: json['severityLevel'] as int,
       notes: json['notes'] as String?,
       isSynced: json['isSynced'] as bool? ?? false,
+      rawData: json['rawData'] as Map<String, dynamic>?,
     );
   }
   
@@ -101,6 +105,7 @@ class DiagnosisModel {
     int? severityLevel,
     String? notes,
     bool? isSynced,
+    Map<String, dynamic>? rawData,
   }) {
     return DiagnosisModel(
       id: id ?? this.id,
@@ -116,6 +121,7 @@ class DiagnosisModel {
       severityLevel: severityLevel ?? this.severityLevel,
       notes: notes ?? this.notes,
       isSynced: isSynced ?? this.isSynced,
+      rawData: rawData ?? this.rawData,
     );
   }
 }

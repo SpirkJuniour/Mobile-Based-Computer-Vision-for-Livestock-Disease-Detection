@@ -9,33 +9,33 @@ import '../models/disease_model.dart';
 class DatabaseService {
   static final DatabaseService instance = DatabaseService._init();
   static Database? _database;
-  
+
   DatabaseService._init();
-  
+
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDB('mifugocare.db');
     return _database!;
   }
-  
+
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
-    
+
     return await openDatabase(
       path,
       version: 1,
       onCreate: _createDB,
     );
   }
-  
+
   Future<void> _createDB(Database db, int version) async {
     const idType = 'TEXT PRIMARY KEY';
     const textType = 'TEXT NOT NULL';
     const boolType = 'INTEGER NOT NULL';
     const intType = 'INTEGER NOT NULL';
     const doubleType = 'REAL NOT NULL';
-    
+
     // Users table
     await db.execute('''
       CREATE TABLE users (
@@ -50,11 +50,10 @@ class DatabaseService {
         lastLogin TEXT,
         authToken TEXT,
         tokenExpiry TEXT,
-        isVerified $boolType,
-        twoFactorEnabled $boolType
+        isVerified $boolType
       )
     ''');
-    
+
     // Livestock table
     await db.execute('''
       CREATE TABLE livestock (
@@ -75,7 +74,7 @@ class DatabaseService {
         isSynced $boolType
       )
     ''');
-    
+
     // Diagnoses table
     await db.execute('''
       CREATE TABLE diagnoses (
@@ -94,7 +93,7 @@ class DatabaseService {
         isSynced $boolType
       )
     ''');
-    
+
     // Diseases table
     await db.execute('''
       CREATE TABLE diseases (
@@ -112,15 +111,15 @@ class DatabaseService {
       )
     ''');
   }
-  
+
   /// Initialize with default data
   Future<void> initialize() async {
-    final db = await database;
+    await database;
     // Database is now ready
   }
-  
+
   // ==================== User Operations ====================
-  
+
   Future<void> insertUser(UserModel user) async {
     final db = await database;
     await db.insert(
@@ -129,7 +128,7 @@ class DatabaseService {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
-  
+
   Future<UserModel?> getUser(String userId) async {
     final db = await database;
     final maps = await db.query(
@@ -137,13 +136,13 @@ class DatabaseService {
       where: 'userId = ?',
       whereArgs: [userId],
     );
-    
+
     if (maps.isNotEmpty) {
       return UserModel.fromJson(maps.first);
     }
     return null;
   }
-  
+
   Future<void> updateUser(UserModel user) async {
     final db = await database;
     await db.update(
@@ -153,7 +152,7 @@ class DatabaseService {
       whereArgs: [user.userId],
     );
   }
-  
+
   Future<void> deleteUser(String userId) async {
     final db = await database;
     await db.delete(
@@ -162,9 +161,9 @@ class DatabaseService {
       whereArgs: [userId],
     );
   }
-  
+
   // ==================== Livestock Operations ====================
-  
+
   Future<void> insertLivestock(LivestockModel livestock) async {
     final db = await database;
     final map = livestock.toJson();
@@ -175,7 +174,7 @@ class DatabaseService {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
-  
+
   Future<List<LivestockModel>> getUserLivestock(String userId) async {
     final db = await database;
     final maps = await db.query(
@@ -184,17 +183,17 @@ class DatabaseService {
       whereArgs: [userId],
       orderBy: 'registeredDate DESC',
     );
-    
+
     return maps.map((map) {
       final livestock = Map<String, dynamic>.from(map);
       if (livestock['diagnosisHistory'] is String) {
-        livestock['diagnosisHistory'] = 
+        livestock['diagnosisHistory'] =
             (livestock['diagnosisHistory'] as String).split(',');
       }
       return LivestockModel.fromJson(livestock);
     }).toList();
   }
-  
+
   Future<LivestockModel?> getLivestock(String id) async {
     final db = await database;
     final maps = await db.query(
@@ -202,18 +201,18 @@ class DatabaseService {
       where: 'id = ?',
       whereArgs: [id],
     );
-    
+
     if (maps.isNotEmpty) {
       final livestock = Map<String, dynamic>.from(maps.first);
       if (livestock['diagnosisHistory'] is String) {
-        livestock['diagnosisHistory'] = 
+        livestock['diagnosisHistory'] =
             (livestock['diagnosisHistory'] as String).split(',');
       }
       return LivestockModel.fromJson(livestock);
     }
     return null;
   }
-  
+
   Future<void> updateLivestock(LivestockModel livestock) async {
     final db = await database;
     final map = livestock.toJson();
@@ -225,7 +224,7 @@ class DatabaseService {
       whereArgs: [livestock.id],
     );
   }
-  
+
   Future<void> deleteLivestock(String id) async {
     final db = await database;
     await db.delete(
@@ -234,9 +233,9 @@ class DatabaseService {
       whereArgs: [id],
     );
   }
-  
+
   // ==================== Diagnosis Operations ====================
-  
+
   Future<void> insertDiagnosis(DiagnosisModel diagnosis) async {
     final db = await database;
     final map = diagnosis.toJson();
@@ -249,7 +248,7 @@ class DatabaseService {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
-  
+
   Future<List<DiagnosisModel>> getUserDiagnoses(String userId) async {
     final db = await database;
     final maps = await db.query(
@@ -258,18 +257,18 @@ class DatabaseService {
       whereArgs: [userId],
       orderBy: 'diagnosisDate DESC',
     );
-    
+
     return maps.map((map) {
       final diagnosis = Map<String, dynamic>.from(map);
       diagnosis['symptoms'] = (diagnosis['symptoms'] as String).split('|||');
-      diagnosis['recommendedTreatments'] = 
+      diagnosis['recommendedTreatments'] =
           (diagnosis['recommendedTreatments'] as String).split('|||');
-      diagnosis['preventionSteps'] = 
+      diagnosis['preventionSteps'] =
           (diagnosis['preventionSteps'] as String).split('|||');
       return DiagnosisModel.fromJson(diagnosis);
     }).toList();
   }
-  
+
   Future<DiagnosisModel?> getDiagnosis(String id) async {
     final db = await database;
     final maps = await db.query(
@@ -277,19 +276,19 @@ class DatabaseService {
       where: 'id = ?',
       whereArgs: [id],
     );
-    
+
     if (maps.isNotEmpty) {
       final diagnosis = Map<String, dynamic>.from(maps.first);
       diagnosis['symptoms'] = (diagnosis['symptoms'] as String).split('|||');
-      diagnosis['recommendedTreatments'] = 
+      diagnosis['recommendedTreatments'] =
           (diagnosis['recommendedTreatments'] as String).split('|||');
-      diagnosis['preventionSteps'] = 
+      diagnosis['preventionSteps'] =
           (diagnosis['preventionSteps'] as String).split('|||');
       return DiagnosisModel.fromJson(diagnosis);
     }
     return null;
   }
-  
+
   Future<void> deleteDiagnosis(String id) async {
     final db = await database;
     await db.delete(
@@ -298,9 +297,9 @@ class DatabaseService {
       whereArgs: [id],
     );
   }
-  
+
   // ==================== Disease Operations ====================
-  
+
   Future<void> insertDisease(DiseaseModel disease) async {
     final db = await database;
     final map = disease.toJson();
@@ -315,24 +314,24 @@ class DatabaseService {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
-  
+
   Future<List<DiseaseModel>> getAllDiseases() async {
     final db = await database;
     final maps = await db.query('diseases', orderBy: 'name ASC');
-    
+
     return maps.map((map) {
       final disease = Map<String, dynamic>.from(map);
       disease['symptoms'] = (disease['symptoms'] as String).split('|||');
       disease['causes'] = (disease['causes'] as String).split('|||');
       disease['treatments'] = (disease['treatments'] as String).split('|||');
-      disease['preventionMethods'] = 
+      disease['preventionMethods'] =
           (disease['preventionMethods'] as String).split('|||');
-      disease['affectedSpecies'] = 
+      disease['affectedSpecies'] =
           (disease['affectedSpecies'] as String).split('|||');
       return DiseaseModel.fromJson(disease);
     }).toList();
   }
-  
+
   Future<DiseaseModel?> getDiseaseByName(String name) async {
     final db = await database;
     final maps = await db.query(
@@ -340,26 +339,25 @@ class DatabaseService {
       where: 'name = ?',
       whereArgs: [name],
     );
-    
+
     if (maps.isNotEmpty) {
       final disease = Map<String, dynamic>.from(maps.first);
       disease['symptoms'] = (disease['symptoms'] as String).split('|||');
       disease['causes'] = (disease['causes'] as String).split('|||');
       disease['treatments'] = (disease['treatments'] as String).split('|||');
-      disease['preventionMethods'] = 
+      disease['preventionMethods'] =
           (disease['preventionMethods'] as String).split('|||');
-      disease['affectedSpecies'] = 
+      disease['affectedSpecies'] =
           (disease['affectedSpecies'] as String).split('|||');
       return DiseaseModel.fromJson(disease);
     }
     return null;
   }
-  
+
   // ==================== Utility ====================
-  
+
   Future<void> close() async {
     final db = await database;
     db.close();
   }
 }
-

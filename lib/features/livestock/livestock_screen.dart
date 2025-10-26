@@ -274,7 +274,7 @@ class _LivestockScreenState extends State<LivestockScreen> {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        Icon(Icons.calendar_today,
+                        const Icon(Icons.calendar_today,
                             size: 14, color: AppColors.textLight),
                         const SizedBox(width: 4),
                         Text(
@@ -356,8 +356,8 @@ class _LivestockScreenState extends State<LivestockScreen> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextField(
-                decoration: const InputDecoration(
+              const TextField(
+                decoration: InputDecoration(
                   labelText: 'Tag/ID Number',
                   prefixIcon: Icon(Icons.qr_code),
                 ),

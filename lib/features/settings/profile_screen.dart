@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/config/app_colors.dart';
 import '../../core/providers/auth_provider.dart';
+import '../../core/services/auth_service.dart';
 
 /// Profile Screen - Beautiful user profile with stats
 class ProfileScreen extends ConsumerWidget {
@@ -202,13 +203,7 @@ class ProfileScreen extends ConsumerWidget {
 
                   // Edit Profile Button
                   ElevatedButton.icon(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Edit profile coming soon!'),
-                        ),
-                      );
-                    },
+                    onPressed: () => _showEditProfileDialog(context, user),
                     icon: const Icon(Icons.edit),
                     label: const Text('Edit Profile'),
                     style: ElevatedButton.styleFrom(
@@ -324,6 +319,96 @@ class ProfileScreen extends ConsumerWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showEditProfileDialog(BuildContext context, user) {
+    final nameController = TextEditingController(text: user?.fullName ?? '');
+    final phoneController =
+        TextEditingController(text: user?.phoneNumber ?? '');
+    final licenseController =
+        TextEditingController(text: user?.licenseNumber ?? '');
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit Profile'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Full Name',
+                  prefixIcon: Icon(Icons.person),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: phoneController,
+                decoration: const InputDecoration(
+                  labelText: 'Phone Number',
+                  prefixIcon: Icon(Icons.phone),
+                ),
+                keyboardType: TextInputType.phone,
+              ),
+              if (user?.role.name == 'veterinarian') ...[
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: licenseController,
+                  decoration: const InputDecoration(
+                    labelText: 'License Number',
+                    prefixIcon: Icon(Icons.badge),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (nameController.text.isNotEmpty) {
+                try {
+                  final updatedUser = user?.copyWith(
+                    fullName: nameController.text,
+                    phoneNumber: phoneController.text.isEmpty
+                        ? null
+                        : phoneController.text,
+                    licenseNumber: licenseController.text.isEmpty
+                        ? null
+                        : licenseController.text,
+                  );
+
+                  if (updatedUser != null) {
+                    await AuthService.instance.updateUserProfile(updatedUser);
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Profile updated successfully!'),
+                        backgroundColor: AppColors.success,
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Error updating profile: $e'),
+                      backgroundColor: AppColors.error,
+                    ),
+                  );
+                }
+              }
+            },
+            child: const Text('Save'),
           ),
         ],
       ),

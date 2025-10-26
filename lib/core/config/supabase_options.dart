@@ -6,10 +6,14 @@
 /// 3. Replace the placeholder values below
 ///
 /// For production, consider using environment variables or flutter_dotenv
+library;
 
 class SupabaseConfig {
   /// Your Supabase project URL
-  static const String supabaseUrl = 'https://slkihxgkafkzasnpjmbl.supabase.co';
+  static const String supabaseUrl = String.fromEnvironment(
+    'SUPABASE_URL',
+    defaultValue: 'https://slkihxgkafkzasnpjmbl.supabase.co',
+  );
 
   /// Your Supabase anon/public key
   /// For production, use environment variables: flutter run --dart-define=SUPABASE_KEY=your_key

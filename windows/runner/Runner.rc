@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "mifugocare" "\0"
+            VALUE "FileDescription", "mifugo_care" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "mifugocare" "\0"
+            VALUE "InternalName", "mifugo_care" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "mifugocare.exe" "\0"
-            VALUE "ProductName", "mifugocare" "\0"
+            VALUE "OriginalFilename", "mifugo_care.exe" "\0"
+            VALUE "ProductName", "mifugo_care" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

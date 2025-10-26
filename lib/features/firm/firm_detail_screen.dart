@@ -295,18 +295,18 @@ class FirmDetailScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Row(
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               radius: 28,
               backgroundColor: AppColors.primary,
-              child: const Icon(Icons.person,
+              child: Icon(Icons.person,
                   color: AppColors.textWhite, size: 30),
             ),
             const SizedBox(width: 16),
-            Expanded(
+            const Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     "MifugoCare Team",
                     style: TextStyle(
                       color: AppColors.textPrimary,
@@ -314,8 +314,8 @@ class FirmDetailScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 2),
-                  const Text(
+                  SizedBox(height: 2),
+                  Text(
                     "Livestock Health Specialists",
                     style: TextStyle(
                       color: AppColors.textSecondary,

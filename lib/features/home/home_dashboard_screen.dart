@@ -113,14 +113,14 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: AppColors.border),
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.location_on,
                         color: AppColors.accent,
                         size: 20,
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Expanded(
                         child: Text(
                           'Search here',
@@ -130,13 +130,13 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
                           ),
                         ),
                       ),
-                      const Icon(
+                      Icon(
                         Icons.search,
                         color: AppColors.textSecondary,
                         size: 20,
                       ),
-                      const SizedBox(width: 12),
-                      const Icon(
+                      SizedBox(width: 12),
+                      Icon(
                         Icons.tune,
                         color: AppColors.textSecondary,
                         size: 20,
@@ -239,23 +239,23 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
                                 color: AppColors.textWhite.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: Row(
+                              child: const Row(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.location_on,
                                     color: AppColors.textWhite,
                                     size: 16,
                                   ),
-                                  const SizedBox(width: 8),
-                                  const Text(
+                                  SizedBox(width: 8),
+                                  Text(
                                     'Kenya, East Africa',
                                     style: TextStyle(
                                       color: AppColors.textWhite,
                                       fontSize: 14,
                                     ),
                                   ),
-                                  const Spacer(),
-                                  const Icon(
+                                  Spacer(),
+                                  Icon(
                                     Icons.send,
                                     color: AppColors.textWhite,
                                     size: 16,

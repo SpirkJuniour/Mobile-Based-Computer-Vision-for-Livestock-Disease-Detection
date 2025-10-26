@@ -22,11 +22,9 @@ class AppTheme {
         secondaryContainer: AppColors.secondaryLight,
         tertiary: AppColors.accent,
         error: AppColors.error,
-        background: AppColors.background,
         surface: AppColors.background,
         onPrimary: AppColors.textWhite,
         onSecondary: AppColors.textWhite,
-        onBackground: AppColors.textPrimary,
         onSurface: AppColors.textPrimary,
         onError: AppColors.textWhite,
       ),
@@ -176,11 +174,11 @@ class AppTheme {
             const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.border),
+          borderSide: const BorderSide(color: AppColors.border),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColors.border),
+          borderSide: const BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -242,7 +240,7 @@ class AppTheme {
       ),
 
       // Divider Theme
-      dividerTheme: DividerThemeData(
+      dividerTheme: const DividerThemeData(
         color: AppColors.divider,
         thickness: 1,
         space: 1,
@@ -276,11 +274,9 @@ class AppTheme {
         secondaryContainer: AppColors.secondary,
         tertiary: AppColors.accent,
         error: AppColors.error,
-        background: AppColors.backgroundDark,
         surface: AppColors.backgroundDark,
         onPrimary: AppColors.textWhite,
         onSecondary: AppColors.textWhite,
-        onBackground: AppColors.textWhite,
         onSurface: AppColors.textWhite,
         onError: AppColors.textWhite,
       ),

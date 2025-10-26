@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 9
+names: ['Bovine FDM', 'Bovine Mastitis', 'Healthy Canis', 'bacterial-dermatosis', 'fungal-infection', 'hypersensitivity-allergic-dermatosis', 'lumpy skin', 'pinkeye', 'sehat']
+
+roboflow:
+  workspace: niranjana-deenadayalan
+  project: cattle-diseases-thuhe
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/niranjana-deenadayalan/cattle-diseases-thuhe/dataset/2

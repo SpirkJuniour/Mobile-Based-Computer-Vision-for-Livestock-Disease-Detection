@@ -84,3 +84,6 @@ colab_training/
 # Build outputs
 /build/
 training_results/
+
+# APK files (distribute via GitHub Releases instead)
+*.apk

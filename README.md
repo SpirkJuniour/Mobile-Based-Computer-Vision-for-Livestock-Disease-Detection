@@ -274,22 +274,16 @@ See `PROJECT_HEALTH_CHECK_REPORT.md` for detailed project status.
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 👥 Authors
 
 **MifugoCare Team**
-- Your Name - *Initial work*
+- Kelvin Mugambi- *Programmer*
 
 ---
 
 ## 📞 Support
 
-For support, email support@mifugocare.com or join our community chat.
+For support, email mifugocare@gmail.com or join our community chat.
 
 ---
 

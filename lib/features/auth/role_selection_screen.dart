@@ -29,46 +29,32 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Logo
+              // Logo - Hoof Icon
               Center(
-                child: Image.asset(
-                  'images/mifugocarelogo.png', // Using your existing logo
-                  height: 80,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      height: 80,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryLight,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Icon(Icons.pets, size: 40, color: AppColors.primary),
-                    );
-                  },
-                ),
+                child: _buildHoofLogo(size: 80),
               ),
-              
+
               const SizedBox(height: 32),
-              
+
               // Title
               Text(
                 'Who are you?',
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
-              
+
               const SizedBox(height: 8),
-              
+
               Text(
                 'Select your role to get started',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: AppColors.textSecondary,
-                ),
+                      color: AppColors.textSecondary,
+                    ),
               ),
-              
+
               const SizedBox(height: 32),
-              
+
               // Role Cards
               Expanded(
                 child: ListView(
@@ -85,9 +71,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                         });
                       },
                     ),
-                    
                     const SizedBox(height: 16),
-                    
                     _buildRoleCard(
                       role: UserRole.veterinarian,
                       icon: Icons.medical_services,
@@ -100,27 +84,12 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                         });
                       },
                     ),
-                    
-                    const SizedBox(height: 16),
-                    
-                    _buildRoleCard(
-                      role: UserRole.administrator,
-                      icon: Icons.admin_panel_settings,
-                      title: 'Administrator',
-                      description: 'System administration and management',
-                      isSelected: selectedRole == UserRole.administrator,
-                      onTap: () {
-                        setState(() {
-                          selectedRole = UserRole.administrator;
-                        });
-                      },
-                    ),
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Continue Button
               SizedBox(
                 width: double.infinity,
@@ -136,16 +105,32 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
                   child: const Text('Continue'),
                 ),
               ),
-              
+
               const SizedBox(height: 16),
-              
-              // Already have account
+
+              // Already have account or Admin
               Center(
-                child: TextButton(
-                  onPressed: () {
-                    context.pushNamed('login');
-                  },
-                  child: const Text('Already have an account? Login'),
+                child: Column(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        context.pushNamed('login');
+                      },
+                      child: const Text('Already have an account? Login'),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        _showAdminLogin(context);
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppColors.textSecondary,
+                      ),
+                      child: const Text(
+                        'Admin Access',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -154,7 +139,7 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
       ),
     );
   }
-  
+
   Widget _buildRoleCard({
     required UserRole role,
     required IconData icon,
@@ -182,46 +167,41 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: isSelected 
-                      ? AppColors.primary 
-                      : AppColors.primaryLight,
+                  color:
+                      isSelected ? AppColors.primary : AppColors.primaryLight,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
                   icon,
-                  color: isSelected 
-                      ? AppColors.textWhite 
-                      : AppColors.primary,
+                  color: isSelected ? AppColors.textWhite : AppColors.primary,
                   size: 32,
                 ),
               ),
-              
               const SizedBox(width: 16),
-              
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       title,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        color: isSelected 
-                            ? AppColors.primary 
-                            : AppColors.textPrimary,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.textPrimary,
+                                fontWeight: FontWeight.w600,
+                              ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       description,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: AppColors.textSecondary,
-                      ),
+                            color: AppColors.textSecondary,
+                          ),
                     ),
                   ],
                 ),
               ),
-              
               if (isSelected)
                 Container(
                   padding: const EdgeInsets.all(8),
@@ -241,4 +221,162 @@ class _RoleSelectionScreenState extends State<RoleSelectionScreen> {
       ),
     );
   }
+
+  // Admin login dialog
+  void _showAdminLogin(BuildContext context) {
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Administrator Login'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                labelText: 'Admin Email',
+                prefixIcon: Icon(Icons.email),
+              ),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: passwordController,
+              decoration: const InputDecoration(
+                labelText: 'Admin Password',
+                prefixIcon: Icon(Icons.lock),
+              ),
+              obscureText: true,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Check hardcoded admin credentials
+              if (emailController.text == 'admin@mifugocare.com' &&
+                  passwordController.text == 'Admin2024!') {
+                Navigator.pop(context);
+                context.pushReplacementNamed('home-dashboard');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Welcome, Administrator!'),
+                    backgroundColor: AppColors.success,
+                  ),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Invalid admin credentials'),
+                    backgroundColor: AppColors.error,
+                  ),
+                );
+              }
+            },
+            child: const Text('Login'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Custom Hoof Logo Widget
+  Widget _buildHoofLogo({required double size}) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(size * 0.25),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withOpacity(0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: CustomPaint(
+        painter: _HoofPainter(),
+      ),
+    );
+  }
+}
+
+// Custom Painter for Hoof Icon
+class _HoofPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+
+    final double centerX = size.width / 2;
+    final double centerY = size.height / 2;
+    final double scale = size.width / 120;
+
+    // Main hoof body
+    final path = Path();
+    path.moveTo(centerX - 25 * scale, centerY - 10 * scale);
+    path.quadraticBezierTo(
+      centerX - 30 * scale, centerY + 20 * scale,
+      centerX - 20 * scale, centerY + 30 * scale,
+    );
+    path.lineTo(centerX + 20 * scale, centerY + 30 * scale);
+    path.quadraticBezierTo(
+      centerX + 30 * scale, centerY + 20 * scale,
+      centerX + 25 * scale, centerY - 10 * scale,
+    );
+    path.quadraticBezierTo(
+      centerX, centerY - 15 * scale,
+      centerX - 25 * scale, centerY - 10 * scale,
+    );
+    canvas.drawPath(path, paint);
+
+    // Hoof toes
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(centerX - 12 * scale, centerY - 20 * scale),
+        width: 16 * scale,
+        height: 24 * scale,
+      ),
+      paint,
+    );
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(centerX + 12 * scale, centerY - 20 * scale),
+        width: 16 * scale,
+        height: 24 * scale,
+      ),
+      paint,
+    );
+
+    // Dewclaws
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(centerX - 28 * scale, centerY - 5 * scale),
+        width: 8 * scale,
+        height: 12 * scale,
+      ),
+      paint,
+    );
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(centerX + 28 * scale, centerY - 5 * scale),
+        width: 8 * scale,
+        height: 12 * scale,
+      ),
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

@@ -74,3 +74,13 @@ ENV/
 training_log*.txt
 training_output.log
 export_log.txt
+*.log
+auto_monitor.log
+
+# Training data (too large for git)
+assets/unlabeled_data/
+colab_training/
+
+# Build outputs
+/build/
+training_results/

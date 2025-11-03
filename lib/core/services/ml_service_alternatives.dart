@@ -266,9 +266,9 @@ class MLServiceAlternatives {
           final g = (pixel >> 8) & 0xFF;
           final b = pixel & 0xFF;
 
-          if (r > g && r > b)
+          if (r > g && r > b) {
             redCount++;
-          else if (g > r && g > b)
+          } else if (g > r && g > b)
             greenCount++;
           else if (b > r && b > g) blueCount++;
         }

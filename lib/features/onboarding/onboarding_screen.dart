@@ -17,42 +17,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Hero Background Image
-          Image.asset(
-            'images/screenshot.png', // Using your existing image
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                color: AppColors.primary,
-                child: const Center(
-                  child: Icon(
-                    Icons.pets,
-                    size: 100,
-                    color: AppColors.textWhite,
-                  ),
-                ),
-              );
-            },
-          ),
-
-          // Dark Gradient Overlay
-          Container(
-            decoration: const BoxDecoration(
-              gradient: AppColors.darkToTransparent,
-            ),
-          ),
-
           // Content
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Top Bar with Language Toggle
+                // Logo at Top
                 Padding(
                   padding: const EdgeInsets.all(24.0),
+                  child: Center(
+                    child: _buildHoofLogo(size: 120),
+                  ),
+                ),
+
+                const SizedBox(height: 32),
+
+                // Top Bar with Language Toggle
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -69,13 +55,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             vertical: 8,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.overlayDark,
+                            color: AppColors.primaryLight,
                             borderRadius: BorderRadius.circular(20),
+                            border: Border.all(color: AppColors.primary),
                           ),
                           child: Text(
                             isEnglish ? 'EN | SW' : 'SW | EN',
                             style: const TextStyle(
-                              color: AppColors.textWhite,
+                              color: AppColors.primary,
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
@@ -88,28 +75,21 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                 // Information Tags
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: const EdgeInsets.all(24.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildInfoTag(
+                      _buildInfoChip(
                         icon: Icons.medical_services,
-                        text: '9 Disease Types',
-                        top: 60,
-                        left: 0,
+                        text: '5 Diseases',
                       ),
-                      _buildInfoTag(
+                      _buildInfoChip(
                         icon: Icons.speed,
-                        text: '95% Accuracy',
-                        top: 120,
-                        left: 100,
+                        text: '>95% Accuracy',
                       ),
-                      _buildInfoTag(
+                      _buildInfoChip(
                         icon: Icons.check_circle,
-                        text: 'Instant Diagnosis',
-                        iconColor: AppColors.success,
-                        top: 180,
-                        left: 0,
+                        text: 'Instant',
                       ),
                     ],
                   ),
@@ -127,8 +107,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         isEnglish ? 'MifugoCare' : 'MifugoCare',
                         style: const TextStyle(
-                          color: AppColors.textWhite,
-                          fontSize: 28,
+                          color: AppColors.textPrimary,
+                          fontSize: 32,
                           fontWeight: FontWeight.bold,
                           height: 1.2,
                         ),
@@ -140,12 +120,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       // Description
                       Text(
                         isEnglish
-                            ? 'Detect livestock diseases instantly using computer vision. Get treatment recommendations and keep your animals healthy with early diagnosis.'
+                            ? 'Detect livestock diseases instantly using AI computer vision. Get treatment recommendations and keep your animals healthy.'
                             : 'Gundua magonjwa ya mifugo haraka kwa kutumia teknolojia ya AI. Pata mapendekezo ya matibabu na weka wanyama wako wenye afya.',
                         style: const TextStyle(
-                          color: AppColors.textWhite,
+                          color: AppColors.textSecondary,
                           fontSize: 16,
-                          height: 1.5,
+                          height: 1.6,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -160,24 +140,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             context.pushNamed('role-selection');
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.backgroundDark,
+                            backgroundColor: AppColors.primary,
                             foregroundColor: AppColors.textWhite,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 18),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
+                            elevation: 2,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                  color: AppColors.textWhite.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: const Icon(Icons.camera_alt, size: 16),
-                              ),
+                              const Icon(Icons.camera_alt, size: 24),
                               const SizedBox(width: 12),
                               Text(
                                 isEnglish
@@ -189,7 +163,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 ),
                               ),
                               const SizedBox(width: 12),
-                              const Icon(Icons.arrow_forward, size: 20),
+                              const Icon(Icons.arrow_forward, size: 24),
                             ],
                           ),
                         ),
@@ -207,38 +181,137 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  Widget _buildInfoTag({
+  Widget _buildInfoChip({
     required IconData icon,
     required String text,
-    required double top,
-    required double left,
-    Color iconColor = AppColors.textWhite,
   }) {
-    return Positioned(
-      top: top,
-      left: left,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: AppColors.overlayDark,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, color: iconColor, size: 16),
-            const SizedBox(width: 8),
-            Text(
-              text,
-              style: const TextStyle(
-                color: AppColors.textWhite,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.primaryLight,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: AppColors.primary, size: 18),
+          const SizedBox(width: 6),
+          Text(
+            text,
+            style: const TextStyle(
+              color: AppColors.primary,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
+
+  // Custom Hoof Logo Widget
+  Widget _buildHoofLogo({required double size}) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(size * 0.25),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withOpacity(0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: CustomPaint(
+        painter: _HoofPainter(),
+      ),
+    );
+  }
+}
+
+// Custom Painter for Hoof Icon
+class _HoofPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+
+    final double centerX = size.width / 2;
+    final double centerY = size.height / 2;
+    final double scale = size.width / 120;
+
+    // Main hoof body (rounded U-shape)
+    final path = Path();
+    path.moveTo(centerX - 25 * scale, centerY - 10 * scale);
+    path.quadraticBezierTo(
+      centerX - 30 * scale,
+      centerY + 20 * scale,
+      centerX - 20 * scale,
+      centerY + 30 * scale,
+    );
+    path.lineTo(centerX + 20 * scale, centerY + 30 * scale);
+    path.quadraticBezierTo(
+      centerX + 30 * scale,
+      centerY + 20 * scale,
+      centerX + 25 * scale,
+      centerY - 10 * scale,
+    );
+    path.quadraticBezierTo(
+      centerX,
+      centerY - 15 * scale,
+      centerX - 25 * scale,
+      centerY - 10 * scale,
+    );
+    canvas.drawPath(path, paint);
+
+    // Hoof toes (two cloven parts)
+    // Left toe
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(centerX - 12 * scale, centerY - 20 * scale),
+        width: 16 * scale,
+        height: 24 * scale,
+      ),
+      paint,
+    );
+
+    // Right toe
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(centerX + 12 * scale, centerY - 20 * scale),
+        width: 16 * scale,
+        height: 24 * scale,
+      ),
+      paint,
+    );
+
+    // Dewclaws (small back toes)
+    // Left dewclaw
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(centerX - 28 * scale, centerY - 5 * scale),
+        width: 8 * scale,
+        height: 12 * scale,
+      ),
+      paint,
+    );
+
+    // Right dewclaw
+    canvas.drawOval(
+      Rect.fromCenter(
+        center: Offset(centerX + 28 * scale, centerY - 5 * scale),
+        width: 8 * scale,
+        height: 12 * scale,
+      ),
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

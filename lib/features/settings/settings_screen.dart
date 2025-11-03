@@ -127,10 +127,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context: context,
       applicationName: 'MifugoCare',
       applicationVersion: '1.0.0',
-      applicationIcon: const Icon(
-        Icons.pets,
-        size: 48,
-        color: AppColors.primary,
+      applicationIcon: Image.asset(
+        'logos/mifugocarelogo.png',
+        width: 48,
+        height: 48,
+        errorBuilder: (context, error, stackTrace) {
+          return const Icon(
+            Icons.error_outline,
+            size: 48,
+            color: AppColors.error,
+          );
+        },
       ),
       children: const [
         Text(

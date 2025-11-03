@@ -1,9 +1,7 @@
 #!/usr/bin/env dart
-/**
- * Test ML Integration for Flutter App
- * 
- * This script tests the ML integration components to ensure everything works properly.
- */
+/// Test ML Integration for Flutter App
+/// 
+/// This script tests the ML integration components to ensure everything works properly.
 
 import 'dart:io';
 
@@ -184,7 +182,7 @@ Future<void> testFlutterIntegration() async {
 Future<void> createIntegrationReport() async {
   print('\n Creating Integration Report...');
 
-  final report = '''
+  const report = '''
 # ML Integration Report
 
 ## Status:  READY FOR TESTING

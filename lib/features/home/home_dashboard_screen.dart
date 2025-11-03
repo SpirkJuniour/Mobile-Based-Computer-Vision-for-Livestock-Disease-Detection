@@ -30,21 +30,20 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header
+                // Header with Logo
                 Row(
                   children: [
-                    // Profile Picture
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundColor: AppColors.primaryLight,
-                      child: Text(
-                        user?.fullName.substring(0, 1).toUpperCase() ?? 'U',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.primary,
-                        ),
-                      ),
+                    // App Logo
+                    Image.asset(
+                      'logos/mifugocarelogo.png',
+                      height: 40,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(
+                          Icons.error_outline,
+                          size: 40,
+                          color: AppColors.error,
+                        );
+                      },
                     ),
 
                     const SizedBox(width: 12),
@@ -56,12 +55,16 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
                         children: [
                           Text(
                             'Hi, ${user?.fullName.split(' ')[0] ?? 'User'}',
-                            style: Theme.of(context).textTheme.headlineMedium
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium
                                 ?.copyWith(fontWeight: FontWeight.w600),
                           ),
                           Text(
                             'Welcome to Kenya',
-                            style: Theme.of(context).textTheme.bodyMedium
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
                                 ?.copyWith(color: AppColors.textSecondary),
                           ),
                         ],
@@ -96,8 +99,8 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
                 Text(
                   'What are you looking for today',
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
 
                 const SizedBox(height: 16),
@@ -151,8 +154,8 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
                 Text(
                   'Category',
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
 
                 const SizedBox(height: 16),
@@ -276,8 +279,8 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
                 Text(
                   'Quick Actions',
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
+                        fontWeight: FontWeight.w600,
+                      ),
                 ),
 
                 const SizedBox(height: 16),
@@ -396,9 +399,8 @@ class _HomeDashboardScreenState extends ConsumerState<HomeDashboardScreen> {
             Text(
               title,
               style: TextStyle(
-                color: isSelected
-                    ? AppColors.textWhite
-                    : AppColors.textSecondary,
+                color:
+                    isSelected ? AppColors.textWhite : AppColors.textSecondary,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),

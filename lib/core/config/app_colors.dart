@@ -17,6 +17,7 @@ class AppColors {
   // BACKGROUND COLORS
   static const Color background = Color(0xFFFFFFFF);
   static const Color backgroundLight = Color(0xFFF8F9FA);
+  static const Color backgroundGrey = Color(0xFFF5F5F5);
   static const Color backgroundDark = Color(0xFF2C2C2C);
   static const Color cardBackground = Color(0xFFFFFFFF);
 
@@ -35,6 +36,7 @@ class AppColors {
   static const Color successGreen = Color(0xFF4CAF50);
   static const Color warning = Color(0xFFFF9800);
   static const Color warningOrange = Color(0xFFFF9800);
+  static const Color warningLight = Color(0xFFFFF3E0);
   static const Color error = Color(0xFFE53935);
   static const Color alertRed = Color(0xFFE53935);
   static const Color info = Color(0xFF2196F3);

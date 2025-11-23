@@ -1,0 +1,90 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Local configuration files
+android/local.properties
+*.local.properties
+
+# Training artifacts and logs
+ml/runs/
+ml/*.log
+ml/training_watchdog.log
+ml/monitor.log
+
+# Large model files (keep only ONNX in assets/models/)
+*.pt
+ml/*.pt
+
+# Training checkpoint files
+ml/*.cache
+ml/runs/**/*.pt
+
+# Temporary SQL fix files (keep only supabase_complete_schema.sql)
+supabase_fix_*.sql
+supabase_QUICK_*.sql
+supabase_*_fix*.sql
+supabase_step_*.sql
+
+# Temporary documentation files
+*_FIX*.md
+*_QUICK*.md
+*_FIX_V*.md
+REMOVE_*.md
+SUPABASE_SIGNUP_FIX*.md
+MINIMAL_SCHEMA*.md
+
+# Batch scripts for local development
+check_logs*.bat
+
+# Incomplete/miscellaneous text files (exclude specific ones)
+*.txt
+!pubspec.yaml
+!requirements.txt
+!README.md
+!TRAINING_INSTRUCTIONS.md
+!DATABASE_SETUP_INSTRUCTIONS.md
+!SUPABASE_SETUP.md
+!VIEW_LOGS_INSTRUCTIONS.md

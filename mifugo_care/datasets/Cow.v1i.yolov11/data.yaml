@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 9
+names: ['-BRD-', 'Contagious', 'Dermatitis', 'Disease', 'Ecthym', 'Unlabeled', 'healthy', 'lumpy', 'skin']
+
+roboflow:
+  workspace: cow-yox57
+  project: cow-zsdvw
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/cow-yox57/cow-zsdvw/dataset/1

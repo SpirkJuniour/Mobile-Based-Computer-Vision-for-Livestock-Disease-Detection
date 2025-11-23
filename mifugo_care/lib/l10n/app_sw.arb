@@ -1,0 +1,81 @@
+{
+  "@@locale": "sw",
+  "appName": "Mifugo Care",
+  "@appName": {
+    "description": "Jina la programu"
+  },
+  "welcomeBack": "Karibu tena!",
+  "monitorHerds": "Angalia mifugo yako na kuendelea kuwasiliana na waganga wa wanyama.",
+  "signInToContinue": "Ingia ili kuendelea",
+  "email": "Barua pepe",
+  "password": "Nenosiri",
+  "forgotPassword": "Umesahau nenosiri?",
+  "signIn": "Ingia",
+  "signInWithGoogle": "Ingia kwa Google",
+  "signInWithApple": "Ingia kwa Apple",
+  "newToMifugoCare": "Ni mpya kwa Mifugo Care?",
+  "createYourAccount": "Unda akaunti yako",
+  "pleaseEnterEmail": "Tafadhali ingiza barua pepe yako",
+  "pleaseEnterValidEmail": "Tafadhali ingiza barua pepe halali",
+  "pleaseEnterPassword": "Tafadhali ingiza nenosiri lako",
+  "passwordMinLength": "Nenosiri lazima liwe na angalau herufi 6",
+  "loginFailed": "Kuingia kumeshindwa: {error}",
+  "@loginFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "farmers": "Wakulima",
+  "veterinarians": "Waganga wa wanyama",
+  "smartScans": "Uchambuzi wa Kisasa",
+  "createYourProfile": "Unda wasifu wako",
+  "tailoredTools": "Zana zilizotengenezwa kwa wakulima na waganga wa wanyama mahali pamoja.",
+  "chooseYourRole": "Chagua jukumu lako",
+  "farmer": "Mkulima",
+  "farmerDescription": "Fuatilia mifugo, omba utambuzi",
+  "veterinarian": "Mganga wa wanyama",
+  "veterinarianDescription": "Kagua kesi, simamia matibabu",
+  "fullName": "Jina kamili",
+  "pleaseEnterName": "Tafadhali ingiza jina lako",
+  "phoneNumberOptional": "Nambari ya simu (si lazima)",
+  "confirmPassword": "Thibitisha nenosiri",
+  "pleaseConfirmPassword": "Tafadhali thibitisha nenosiri lako",
+  "passwordsDoNotMatch": "Nenosiri hazifanani",
+  "pleaseEnterPasswordField": "Tafadhali ingiza nenosiri",
+  "passwordRequirements": "Tumia herufi 10+ zenye kubwa, ndogo, nambari, ishara",
+  "strongPasswordGenerated": "Nenosiri lenye nguvu limetengenezwa!",
+  "createAccount": "Unda Akaunti",
+  "signUpFailed": "Kujisajili kumeshindwa: {error}",
+  "@signUpFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "connectWithVets": "Wasiliana na waganga wa wanyama",
+  "livestockAnalytics": "Uchanganuzi wa mifugo",
+  "secureRecords": "Rekodi salama",
+  "home": "Nyumbani",
+  "livestock": "Mifugo",
+  "history": "Historia",
+  "profile": "Wasifu",
+  "scanLivestock": "Chambua Mifugo",
+  "editProfile": "Hariri wasifu",
+  "updateYourInfo": "Sasisha jina lako, mawasiliano na picha yako",
+  "notifications": "Arifa",
+  "configureAlerts": "Sanidi arifa na ukumbusho",
+  "settings": "Mipangilio",
+  "customizePreferences": "Sanidi mapendeleo",
+  "signOut": "Toka",
+  "logOutOfMifugoCare": "Toka kwenye Mifugo Care",
+  "language": "Lugha",
+  "selectLanguage": "Chagua Lugha",
+  "english": "Kiingereza",
+  "kiswahili": "Kiswahili",
+  "languageChanged": "Lugha imebadilishwa kwa mafanikio",
+  "selectPreferredLanguage": "Chagua lugha unayopendelea",
+  "yourLanguage": "Lugha Yako"
+}

@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 6
+names: ['Dermatitis', 'Ecthym', 'Respiratory', 'healthy', 'lumpy', 'skin']
+
+roboflow:
+  workspace: merv-hofw9
+  project: animal_pathologies
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/merv-hofw9/animal_pathologies/dataset/2

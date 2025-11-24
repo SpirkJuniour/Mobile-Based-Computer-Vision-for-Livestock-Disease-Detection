@@ -5,7 +5,6 @@ A Flutter-based mobile application for detecting livestock diseases using comput
 ![Flutter](https://img.shields.io/badge/Flutter-3.9.2+-02569B?logo=flutter)
 ![Dart](https://img.shields.io/badge/Dart-3.0+-0175C2?logo=dart)
 ![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E?logo=supabase)
-![License](https://img.shields.io/badge/License-MIT-blue)
 
 ## Features
 
